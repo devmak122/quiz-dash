@@ -5,15 +5,30 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchuser");
+const passport = require('passport');
+const multer = require('multer');
+const path = require('path');
 
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
+
+// Multer setup for file storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Route 1: Create user
 router.post(
   "/register",
+  upload.single('resume'),
   [
-    
-    // No validation for confirmPassword since it isn't in the form
+    // Add your validations here if needed
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -40,7 +55,7 @@ router.post(
         interestedSubject: req.body.interestedSubject,
         skillSets: req.body.skillSets,
         yearsOfExperience: req.body.yearsOfExperience,
-        resume: req.body.resume
+        resume: req.file.path // Store the file path
       });
 
       const payload = {
@@ -59,6 +74,7 @@ router.post(
     }
   }
 );
+
 // Route 2: Login auth
 router.post(
   "/login",
@@ -118,5 +134,34 @@ router.post(
     }
   }
 );
+
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, redirect home or where you want.
+    res.redirect('/dashboard');
+  });
+
+// GitHub Auth Routes
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+
+router.get('/github/callback',
+  passport.authenticate('github', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, redirect home or where you want.
+    res.redirect('/dashboard');
+  });
+
+// LinkedIn Auth Routes
+router.get('/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
+
+router.get('/linkedin/callback',
+  passport.authenticate('linkedin', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, redirect home or where you want.
+    res.redirect('/dashboard');
+  });
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook, FaGoogle, FaGithub } from 'react-icons/fa';
+import {  FaGoogle, FaGithub, FaLinkedin } from 'react-icons/fa';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -18,7 +18,7 @@ const Login = () => {
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await axios.post('http://localhost:5000/api/login', values);
+        const res = await axios.post('http://localhost:5000/api/auth/login', values);
         localStorage.setItem('token', res.data.token);
         toast.success('Login successfully');
         window.location.href = '/dashboard'; // Redirect to dashboard
@@ -31,9 +31,8 @@ const Login = () => {
     },
   });
 
-  const handleSocialLogin = async (provider) => {
-    // This is a placeholder. You need to implement the actual OAuth flow with the chosen provider.
-    toast.info(`Login with ${provider} is not implemented yet.`);
+  const handleSocialLogin = (provider) => {
+    window.location.href = `http://localhost:5000/auth/auth/${provider}`;
   };
 
   return (
@@ -83,22 +82,22 @@ const Login = () => {
             <div className="text-gray-500">— Or Sign in with —</div>
             <div className="flex justify-center space-x-4 mt-4">
               <button
-                onClick={() => handleSocialLogin('Facebook')}
-                className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white"
-              >
-                <FaFacebook className="text-lg" />
-              </button>
-              <button
-                onClick={() => handleSocialLogin('Google')}
+                onClick={() => handleSocialLogin('google')}
                 className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white"
               >
                 <FaGoogle className="text-lg" />
               </button>
               <button
-                onClick={() => handleSocialLogin('Github')}
+                onClick={() => handleSocialLogin('github')}
                 className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white"
               >
                 <FaGithub className="text-lg" />
+              </button>
+              <button
+                onClick={() => handleSocialLogin('linkedin')}
+                className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white"
+              >
+                <FaLinkedin className="text-lg" />
               </button>
             </div>
             <div className="mt-6 text-gray-500">

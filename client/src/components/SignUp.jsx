@@ -42,13 +42,15 @@ const Registration = () => {
     setFormData({ ...formData, ...finalData });
     console.log('Final Registration Data:', { ...formData, ...finalData });
 
+    const formDataObj = new FormData();
+    Object.keys(formData).forEach(key => {
+      formDataObj.append(key, formData[key]);
+    });
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ...formData, ...finalData }),
+        body: formDataObj,
       });
 
       if (response.ok) {
