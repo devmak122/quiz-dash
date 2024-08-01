@@ -1,27 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-const User = require("../models/User");
+const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchuser");
 
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
 
-// router 1: Create user
+// Route 1: Create user
 router.post(
-  "/createuser",
+  "/register",
   [
-    [
-      body("name").isLength({ min: 5 }).withMessage("Name must be at least 5 characters long"),
-      body("email").isEmail().withMessage("Please enter a valid email address"),
-      body("phone").isLength({ min: 10 }).withMessage("Phone number must be at least 10 digits long"),
-      body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
-      body("confirmPassword")
-        .custom((value, { req }) => value === req.body.password)
-        .withMessage("Passwords do not match"),
-    ]
-
+    
+    // No validation for confirmPassword since it isn't in the form
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -32,16 +24,7 @@ router.post(
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res
-          .status(400)
-          .json({ error: "A user with this email already exists" });
-      }
-
-      user = await User.findOne({ phone: req.body.phone });
-      if (user) {
-        return res
-          .status(400)
-          .json({ error: "A user with this phone number already exists" });
+        return res.status(400).json({ error: "A user with this email already exists" });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -52,6 +35,12 @@ router.post(
         email: req.body.email,
         phone: req.body.phone,
         password: hashedPassword,
+        collegeName: req.body.collegeName,
+        degree: req.body.degree,
+        interestedSubject: req.body.interestedSubject,
+        skillSets: req.body.skillSets,
+        yearsOfExperience: req.body.yearsOfExperience,
+        resume: req.body.resume
       });
 
       const payload = {
@@ -67,19 +56,15 @@ router.post(
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: "Internal Server Error" });
-
     }
   }
 );
-
-// router 2: Login auth
+// Route 2: Login auth
 router.post(
   "/login",
   [
     body("email").isEmail().withMessage("Please enter a valid email address"),
-    body("password")
-      .isLength({ min: 5 })
-      .withMessage("Password must be at least 5 characters long"),
+    body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -93,17 +78,13 @@ router.post(
       let user = await User.findOne({ email });
       if (!user) {
         console.log("User not found.");
-        return res
-          .status(400)
-          .json({ error: "Please try to login with correct credentials" });
+        return res.status(400).json({ error: "Please try to login with correct credentials" });
       }
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
         console.log("Incorrect password.");
-        return res
-          .status(400)
-          .json({ error: "Please try to login with correct credentials" });
+        return res.status(400).json({ error: "Please try to login with correct credentials" });
       }
 
       const payload = {
@@ -123,10 +104,10 @@ router.post(
   }
 );
 
-// router 3: Get user details (login required)
+// Route 3: Get user details (login required)
 router.post(
   "/getuser",
-  fetchUser, // Middleware to fetch user
+  fetchUser,
   async (req, res) => {
     try {
       const user = await User.findById(req.user.id).select("-password");

@@ -34,11 +34,7 @@ module.exports = {
         h6: ["20px", "1.2em"],
         body: ["18px", "1.2em"],
       },
-      backgroundImage: {
-        "body-bg": "url('/src/Images/testimonialBg.png')",
-        "section-bg": "url('/src/Images/homeBg.svg')",
-        "form-bg": "url('/src/Images/formBg.svg')",
-      },
+      
     },
     colors: {
       transparent: "transparent",

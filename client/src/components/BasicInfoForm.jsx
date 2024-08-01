@@ -1,77 +1,90 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { FaUser, FaEnvelope, FaPhone, FaLock } from 'react-icons/fa';
 
 const BasicInfoForm = ({ data, onSubmit }) => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    phone: Yup.string().required('Phone number is required'),
-    password: Yup.string().required('Password is required'),
+    name: Yup.string()
+      .required('Name is required')
+      .min(2, 'Name is too short!')
+      .max(50, 'Name is too long!'),
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+    phone: Yup.string()
+      .matches(/^[0-9]+$/, 'Phone number is not valid')
+      .required('Phone number is required'),
+    password: Yup.string()
+      .required('Password is required')
+      .min(8, 'Password must be at least 8 characters long'),
   });
 
   return (
     <Formik
       initialValues={data}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
+      onSubmit={(values, { setSubmitting }) => {
         // Call the onSubmit function passed from the parent component
         onSubmit(values);
+        setSubmitting(false); // Stop the loader after submission
       }}
     >
-      {({ values, handleChange, handleBlur }) => (
+      {({ isSubmitting }) => (
         <Form className="space-y-4">
-          <div>
+          <div className="relative">
+            <label htmlFor="name" className="block mb-2 font-semibold text-roboto text-gray-700">Name</label>
+            <FaUser className="absolute left-3 top-10 text-gray-400" />
             <Field
+              id="name"
               name="name"
-              placeholder="Name"
-              className="w-full px-4 py-2 border rounded-lg"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              placeholder="Enter your full name"
+              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
-            <ErrorMessage name="name" component="div" className="text-red-500" />
+            <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
           </div>
-          <div>
+          <div className="relative">
+            <label htmlFor="email" className="block mb-2 font-semibold text-body text-gray-700">Email</label>
+            <FaEnvelope className="absolute left-3 top-10 text-gray-400" />
             <Field
               type="email"
+              id="email"
               name="email"
-              placeholder="Email"
-              className="w-full px-4 py-2 border rounded-lg"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              placeholder="example@domain.com"
+              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
-            <ErrorMessage name="email" component="div" className="text-red-500" />
+            <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
           </div>
-          <div>
+          <div className="relative">
+            <label htmlFor="phone" className="block mb-2 font-semibold text-body text-gray-700">Phone Number</label>
+            <FaPhone className="absolute left-3 top-10 text-gray-400" />
             <Field
+              id="phone"
               name="phone"
-              placeholder="Phone Number"
-              className="w-full px-4 py-2 border rounded-lg"
-              value={values.phone}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              placeholder="Enter your phone number"
+              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
-            <ErrorMessage name="phone" component="div" className="text-red-500" />
+            <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
           </div>
-          <div>
+          <div className="relative">
+            <label htmlFor="password" className="block mb-2 font-semibold text-body text-gray-700">Password</label>
+            <FaLock className="absolute left-3 top-10 text-gray-400" />
             <Field
               type="password"
+              id="password"
               name="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 border rounded-lg"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
+              placeholder="Create a password"
+              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
-            <ErrorMessage name="password" component="div" className="text-red-500" />
+            <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <button
             type="submit"
-            className="py-3 px-6 bg-primary text-white font-semibold rounded-lg hover:bg-primary"
+            disabled={isSubmitting}
+            className={`py-3 px-6 bg-primary text-white font-semibold rounded-lg transition-colors duration-300 ease-in-out ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-light'
+              }`}
           >
-            Next
+            {isSubmitting ? 'Submitting...' : 'Next'}
           </button>
         </Form>
       )}
