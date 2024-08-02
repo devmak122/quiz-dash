@@ -34,47 +34,47 @@ const BasicInfoForm = ({ data, onSubmit }) => {
         <Form className="space-y-4">
           <div className="relative">
             <label htmlFor="name" className="block mb-2 font-semibold text-roboto text-gray-700">Name</label>
-            <FaUser className="absolute left-3 top-10 text-gray-400" />
+            <FaUser className="absolute left-3 top-10 text-primary" />
             <Field
               id="name"
               name="name"
               placeholder="Enter your full name"
-              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full px-10 py-2 border border-primary rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
             <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div className="relative">
             <label htmlFor="email" className="block mb-2 font-semibold text-body text-gray-700">Email</label>
-            <FaEnvelope className="absolute left-3 top-10 text-gray-400" />
+            <FaEnvelope className="absolute left-3 top-10 text-primary" />
             <Field
               type="email"
               id="email"
               name="email"
               placeholder="example@domain.com"
-              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full px-10 py-2 border border-primary rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
             <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div className="relative">
             <label htmlFor="phone" className="block mb-2 font-semibold text-body text-gray-700">Phone Number</label>
-            <FaPhone className="absolute left-3 top-10 text-gray-400" />
+            <FaPhone className="absolute left-3 top-10 text-primary" />
             <Field
               id="phone"
               name="phone"
               placeholder="Enter your phone number"
-              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full px-10 py-2 border border-primary rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
             <ErrorMessage name="phone" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div className="relative">
             <label htmlFor="password" className="block mb-2 font-semibold text-body text-gray-700">Password</label>
-            <FaLock className="absolute left-3 top-10 text-gray-400" />
+            <FaLock className="absolute left-3 top-10 text-primary" />
             <Field
               type="password"
               id="password"
               name="password"
               placeholder="Create a password"
-              className="w-full px-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full px-10 py-2 border border-primary rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out"
             />
             <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
           </div>

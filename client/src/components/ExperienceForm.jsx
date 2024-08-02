@@ -33,12 +33,12 @@ const ExperienceForm = ({ data, onBack, onSubmit, onFileChange }) => {
         <Form className="space-y-6">
           <div className="relative">
             <label htmlFor="yearsOfExperience" className="block mb-2 font-semibold text-body text-gray-700">Years of Experience</label>
-            <FaLaptopCode className="absolute left-3 top-10 text-gray-400" />
+            <FaLaptopCode className="absolute left-3 top-10 text-primary" />
             <Field
               as="select"
               id="degree"
               name="degree"
-              className="w-full px-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 ease-in-out"
+              className="w-full px-10 py-2 border border-primary rounded-md shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 ease-in-out"
             >
               <option value="">Your Experience</option>
               <option value="1">Fresher</option>
