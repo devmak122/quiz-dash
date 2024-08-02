@@ -41,7 +41,7 @@ const ExperienceForm = ({ data, onBack, onSubmit, onFileChange }) => {
               className="w-full px-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-300 ease-in-out"
             >
               <option value="">Your Experience</option>
-              <option value="1">Fasher</option>
+              <option value="1">Fresher</option>
               <option value="2">0 to 1</option>
               <option value="3"> 1 to 2</option>
               <option value="3"> 2 to 3</option>

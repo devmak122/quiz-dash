@@ -17,7 +17,7 @@ passport.use(new GoogleStrategy({
             if (!user) {
                 user = await User.create({
                     name: profile.displayName,
-                    email: profile.emails[0].value,
+                    email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : 'no-email@example.com',
                     googleId: profile.id,
                 });
             }
@@ -39,7 +39,7 @@ passport.use(new GitHubStrategy({
             if (!user) {
                 user = await User.create({
                     name: profile.displayName,
-                    email: profile.emails[0].value,
+                    email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : 'no-email@example.com',
                     githubId: profile.id,
                 });
             }
@@ -62,7 +62,7 @@ passport.use(new LinkedInStrategy({
             if (!user) {
                 user = await User.create({
                     name: profile.displayName,
-                    email: profile.emails[0].value,
+                    email: profile.emails && profile.emails.length > 0 ? profile.emails[0].value : 'no-email@example.com',
                     linkedinId: profile.id,
                 });
             }

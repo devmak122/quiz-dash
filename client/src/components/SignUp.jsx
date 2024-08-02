@@ -1,120 +1,177 @@
-import React, { useState } from 'react';
-import BasicInfoForm from './BasicInfoForm';
-import EducationalBackgroundForm from './EducationalBackgroundForm';
-import ExperienceForm from './ExperienceForm';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
+import loginImg from '../assets/Images/loginImg.jpg'; // Update path as needed
+import googleImg from '../assets/Images/google.svg'; // Your Google image path
+import githubImg from '../assets/Images/github.svg'; // Your GitHub image path
+import linkedinImg from '../assets/Images/linkedin.svg'; // Your LinkedIn image path
 
-const Registration = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    collegeName: '',
-    degree: '',
-    interestedSubject: '',
-    skillSets: '',
-    yearsOfExperience: 0,
-    resume: null,
+const Login = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Required'),
+      password: Yup.string().required('Required'),
+    }),
+    onSubmit: async (values, { setSubmitting, setErrors }) => {
+      try {
+        const res = await axios.post('http://localhost:5000/api/auth/login', values);
+        localStorage.setItem('token', res.data.token);
+        toast.success('Login successfully');
+        window.location.href = '/dashboard'; // Redirect to dashboard
+      } catch (err) {
+        setErrors({ submit: err.response?.data?.message || 'Something went wrong. Please try again.' });
+        toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
+        console.error(err);
+      }
+      setSubmitting(false);
+    },
   });
 
-  const navigate = useNavigate();
-
-  const handleNext = (newData) => {
-    setFormData({ ...formData, ...newData });
-    setCurrentStep((prevStep) => prevStep + 1);
+  const handleSocialLogin = (provider) => {
+    window.location.href = `http://localhost:5000/auth/auth/${provider}`;
   };
-
-  const handleBack = (newData) => {
-    setFormData({ ...formData, ...newData });
-    setCurrentStep((prevStep) => prevStep - 1);
-  };
-
-  const CheckMarkIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clipRule="evenodd" />
-    </svg>
-  );
-
-  const handleSubmit = async (finalData) => {
-    setFormData({ ...formData, ...finalData });
-    console.log('Final Registration Data:', { ...formData, ...finalData });
-
-    const formDataObj = new FormData();
-    Object.keys(formData).forEach(key => {
-      formDataObj.append(key, formData[key]);
-    });
-
-    try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        body: formDataObj,
-      });
-
-      if (response.ok) {
-        toast.success('Registration successful!', {
-          position: 'top-center',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-
-        setTimeout(() => {
-          navigate('/login');
-        }, 3500);
-      } else {
-        const errorData = await response.json();
-        toast.error(`Registration failed: ${errorData.message}`);
-      }
-    } catch (error) {
-      toast.error('Registration failed: ' + error.message);
-    }
-
-    setCurrentStep(1);
-  };
-
-  const handleFileChange = (file) => {
-    setFormData({ ...formData, resume: file });
-  };
-
-  const stepComponents = [
-    <BasicInfoForm data={formData} onSubmit={handleNext} />,
-    <EducationalBackgroundForm data={formData} onBack={handleBack} onNext={handleNext} />,
-    <ExperienceForm data={formData} onFileChange={handleFileChange} onBack={handleBack} onSubmit={handleSubmit} />,
-  ];
 
   return (
-    <div className="min-h-screen bg-body-bg bg-cover bg-no-repeat flex items-center justify-center">
-      <div className="max-w-lg mx-auto mt-10 p-5 bg-white shadow-md rounded-3xl">
-        <h1 className="text-2xl font-bold text-center mb-6">Registration</h1>
-        <div className="flex justify-center w-full pt-10 items-center space-x-2 p-4 laptop:items-center laptop:justify-center">
-          <div className={`${currentStep >= 1 ? 'ring-2 ring-primary rounded-full p-1' : ''}`}>
-            <div className={`w-10 h-10 flex items-center justify-center font-bold ${currentStep >= 1 ? 'text-primary bg-secondary' : 'text-primary bg-tertiary'} rounded-full`}>
-              {currentStep > 1 ? <CheckMarkIcon /> : '1'}
-            </div>
-          </div>
+    <div className="flex mobile:flex-col mobile:min-h-screen h-screen">
+      {/* Left: Image Section */}
+      <div className="lg:w-1/2 h-full hidden lg:block">
+        <img
+          src={loginImg}
+          alt="leftImg"
+          className="object-cover object-center w-full h-full"
+        />
+      </div>
 
-          <hr className="border-t-2 w-32" />
-          <div className={`${currentStep >= 2 ? 'ring-2 ring-primary rounded-full p-1' : ''}`}>
-            <div className={`w-10 h-10 flex items-center justify-center font-bold ${currentStep >= 2 ? 'text-primary bg-secondary' : 'text-secondary bg-tertiary'} rounded-full`}>
-              {currentStep > 2 ? <CheckMarkIcon /> : '2'}
+      {/* Right: Login Form */}
+      <div className="lg:w-1/2 mobile:min-h-screen laptop:flex flex-col">
+        <div className="laptop:h-[77vh] flex flex-col laptop:gap-5 justify-end items-center p-4 mobile:bg-tertiary mobile:items-start lg:p-0">
+          <h1 className="text-3xl lg:text-5xl text-primary font-semibold mobile:text-start mobile:text-5xl mobile:mb-5 mt-5 font-lora text-center">
+            Welcome TO ZYZ
+          </h1>
+          <p className="text-primary font-poppins mobile:mb-5 text-lg lg:text-2xl text-center">
+            Please Login
+          </p>
+          {formik.errors.submit && (
+            <div className="text-red-500 text-center mb-4">
+              {formik.errors.submit}
+            </div>
+          )}
+          <form className="space-y-4" onSubmit={formik.handleSubmit}>
+            <div>
+              <label htmlFor="email" className="block text-primary font-poppins text-lg mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                type="text"
+                placeholder="Enter Email"
+                className="w-[500px] h-[60px] rounded-[30px] border border-primary px-[30px] py-[20px] focus:outline-none focus:border-primary"
+                {...formik.getFieldProps('email')}
+              />
+              {formik.touched.email && formik.errors.email ? (
+                <div className="text-red-500 text-sm">{formik.errors.email}</div>
+              ) : null}
+            </div>
+            <div>
+              <label htmlFor="password" className="block text-primary font-poppins text-lg mb-1">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Passcode"
+                className="w-[500px] h-[60px] rounded-[30px] border border-primary px-[30px] py-[20px] focus:outline-none focus:border-primary"
+                {...formik.getFieldProps('password')}
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <div className="text-red-500 text-sm">{formik.errors.password}</div>
+              ) : null}
+            </div>
+            <div className="text-right text-orange-500">
+              <a href="/forgot-password">Forgot Password?</a>
+            </div>
+            <button
+              type="submit"
+              className="w-full px-4 py-2 lg:py-3 mt-4 font-semibold text-white bg-secondary rounded-[30px] uppercase"
+              disabled={formik.isSubmitting}
+            >
+              Sign in
+            </button>
+          </form>
+          <div className="mt-6 text-center">
+            <div className="text-primary font-poppins mobile:mb-5 text-lg lg:text-sm text-center">
+              — Or Sign in with —
+            </div>
+            <div className="flex justify-center space-x-4 mt-4">
+              <button
+                onClick={() => handleSocialLogin('google')}
+                className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white flex items-center space-x-2"
+              >
+                <img src={googleImg} alt="Google" className="w-6 h-6" />
+                <span>Google</span>
+              </button>
+              <button
+                onClick={() => handleSocialLogin('github')}
+                className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white flex items-center space-x-2"
+              >
+                <img src={githubImg} alt="GitHub" className="w-6 h-6" />
+                <span>GitHub</span>
+              </button>
+              <button
+                onClick={() => handleSocialLogin('linkedin')}
+                className="p-2 bg-gray-100 rounded-full hover:bg-black hover:text-white flex items-center space-x-2"
+              >
+                <img src={linkedinImg} alt="LinkedIn" className="w-6 h-6" />
+                <span>LinkedIn</span>
+              </button>
+            </div>
+            <div className="mt-6 text-gray-500">
+              Don't have an account?{" "}
+              <a href="/signup" className="text-orange-500">
+                Sign up
+              </a>
             </div>
           </div>
-          <hr className="border-t-2 w-32" />
-          <div className={`${currentStep >= 3 ? 'ring-2 ring-primary rounded-full p-1' : ''}`}>
-            <div className={`w-10 h-10 flex items-center justify-center font-bold ${currentStep >= 3 ? 'text-primary bg-secondary' : 'text-secondary bg-tertiary'} rounded-full`}>
-              {currentStep > 3 ? <CheckMarkIcon /> : '3'}
-            </div>
+          <div className="laptop:hidden">
+            <footer className="bg-white shadow-md w-full font-poppins">
+              <div className="container mx-auto p-4 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
+                {/* Left Section */}
+                <div className="text-[#214284] text-sm mb-2 sm:mb-0">
+                  <p>
+                    <Link to="/" className="underline">
+                      Terms and Condition
+                    </Link>{" "}
+                    <br />{" "}
+                    <Link to="/" className="underline px-2">
+                      Privacy Policy
+                    </Link>{" "}
+                    |{" "}
+                    <Link to="/" className="underline px-2">
+                      Contact Us
+                    </Link>
+                  </p>
+                </div>
+
+                {/* Right Section */}
+                <div className="text-[#214284] text-[16px]">
+                  <p>&copy; 2021 All Rights Reserved by TFS</p>
+                </div>
+              </div>
+            </footer>
           </div>
         </div>
-        <div>{stepComponents[currentStep - 1]}</div>
+        <ToastContainer />
       </div>
     </div>
   );
 };
 
-export default Registration;
+export default Login;
