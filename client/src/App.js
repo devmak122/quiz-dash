@@ -15,7 +15,7 @@ import {
 function App() {
   return (
     <Router>
-      <div className="flex items-center justify-center min-h-screen bg-tertiary">
+      <div className="">
         <Routes>
           <Route
             path="/login"
@@ -27,7 +27,7 @@ function App() {
           />
           
           <Route
-            path="/SignUp"
+            path="/"
             element={
               <>
                 <SignUp />
@@ -37,8 +37,8 @@ function App() {
               </>
             }
           />
-          <Route path="/" exact>
-          </Route>
+          
+         
         </Routes>
       </div>
     </Router>
