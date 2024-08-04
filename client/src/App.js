@@ -11,6 +11,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import Navbar from './components/DashBoard/Navbar';
 
 function App() {
   return (
@@ -37,8 +38,10 @@ function App() {
               </>
             }
           />
-          
-         
+          <Route path="/Dashboard" element={
+            <Navbar/>
+          }>
+          </Route>
         </Routes>
       </div>
     </Router>

@@ -29,13 +29,13 @@ const Login = () => {
         localStorage.setItem('token', res.data.token);
         toast.success('Login successful!', {
           position: 'top-center',
-          autoClose: 3000,
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
         });
-        setTimeout(() => navigate('/'), 3500);
+        setTimeout(() => navigate('/Dashboard'), 3500);
       } catch (err) {
         setErrors({ submit: err.response?.data?.message || 'Something went wrong. Please try again.' });
         toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
