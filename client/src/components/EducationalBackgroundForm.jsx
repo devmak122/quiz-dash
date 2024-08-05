@@ -48,24 +48,46 @@ const EducationalBackgroundForm = ({ data, onBack, onNext }) => {
                 className="w-full pl-10 py-2 border-b-2 border-gray-300 text-xl focus:border-primary focus:outline-none"
               >
                 <option value="">Select Degree</option>
-                <option value="Bachelor">Bachelor</option>
-                <option value="Master">Master</option>
-                <option value="PhD">PhD</option>
+                <option value="b.tech">B.tech</option>
+                <option value="M.Tech">M.Tech</option>
+                <option value="B.Sc">B.Sc</option>
+                <option value="BCA">BCA</option>
+                <option value="MCA">MCA</option>
               </Field>
             </div>
             <ErrorMessage name="degree" component="div" className="text-red-500 text-sm mt-1" />
           </div>
+     
           <div className="relative">
-            <label htmlFor="interestedSubject" className="block mb-2 font-semibold text-gray-700 text-xl">Interested Subject</label>
+          <label htmlFor="interestedSubject" className="block mb-2 font-semibold text-gray-700 text-xl">Interested Subject</label>
             <div className="relative">
-              <FaBrain className="absolute left-3 top-3  text-gray-500" />
+            <FaBrain className="absolute left-3 top-3  text-gray-500" />
               <Field
+                as="select"
                 id="interestedSubject"
                 name="interestedSubject"
-                placeholder="Enter your interested subject"
                 className="w-full pl-10 py-2 border-b-2 border-gray-300 text-xl focus:border-primary focus:outline-none"
-              />
+              >
+                <option value="">Select Interested Subject</option>
+                
+                <option value="Software Development">Software Development</option>
+                <option value="Mobile App Development">Mobile App Development</option>
+                <option value="Data Science and Analytics">Data Science and Analytics</option>
+                <option value=" Artificial Intelligence and Machine Learning"> Artificial Intelligence and Machine Learning</option>
+                <option value="  Blockchain Development">  Blockchain Development</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value=" Cloud Computing"> Cloud Computing</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Web Development">Web Development</option>
+                <option value="WordPress Development">WordPress Development</option>
+                <option value="Content Writer">Content Writer</option>
+              </Field>
             </div>
+             
+              
+               
+                 
+                 
             <ErrorMessage name="interestedSubject" component="div" className="text-red-500 text-sm mt-1" />
           </div>
           <div className="relative">

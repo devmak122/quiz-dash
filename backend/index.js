@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const passportSetup = require('./config/passport');
 const authRoutes = require('./routes/auth');
 const path = require('path');
+const slotRoutes = require('./routes/slots');
+
 
 const app = express();
 const port = 5000;
@@ -38,6 +40,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/slots', slotRoutes);
 
 app.listen(port, () => {
   console.log(`Dashboard Backend listening at http://localhost:${port}`);

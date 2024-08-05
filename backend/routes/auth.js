@@ -9,6 +9,7 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 
+
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
 
 // Multer setup for file storage

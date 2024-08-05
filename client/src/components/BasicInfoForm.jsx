@@ -52,7 +52,7 @@ const BasicInfoForm = ({ data, onSubmit }) => {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="example@domain.com"
+                placeholder="example123@gmail.com"
                 className="w-full pl-10 py-2 border-b-2 border-gray-300 text-xl focus:border-primary focus:outline-none"
               />
             </div>

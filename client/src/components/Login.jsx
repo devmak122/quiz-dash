@@ -7,9 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaGoogle, FaLinkedin, FaGithub } from 'react-icons/fa';
 import loginform from '../assets/Images/loginform.svg';
-import googleImg from '../assets/Images/google.svg';
-import githubImg from '../assets/Images/github.svg';
-import linkedinImg from '../assets/Images/linkedin.svg';
+import Google from '../assets/Images/Google.svg';
+import Github from '../assets/Images/Github.svg';
+import Linkedin from '../assets/Images/LinkedIn.svg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        setTimeout(() => navigate('/Dashboard'), 3500);
+        setTimeout(() => navigate('/DashBoard'), 3500);
       } catch (err) {
         setErrors({ submit: err.response?.data?.message || 'Something went wrong. Please try again.' });
         toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
@@ -127,21 +127,21 @@ const Login = () => {
             onClick={() => handleSocialLogin('google')}
             className="p-2 bg-white rounded-full hover:bg-red-500 hover:text-white flex items-center space-x-2 transition-all duration-200"
           >
-            <img src={googleImg} alt="Google" className="w-6 h-6" />
+            <img src={Google} alt="Google" className="w-6 h-6" />
             <span>Google</span>
           </button>
           <button
             onClick={() => handleSocialLogin('github')}
             className="p-2 bg-white rounded-full hover:bg-red-500 hover:text-white flex items-center space-x-2 transition-all duration-200"
           >
-            <img src={githubImg} alt="GitHub" className="w-6 h-6" />
+            <img src={Github} alt="GitHub" className="w-6 h-6" />
             <span>GitHub</span>
           </button>
           <button
             onClick={() => handleSocialLogin('linkedin')}
             className="p-2 bg-white rounded-full hover:bg-red-500 hover:text-white flex items-center space-x-2 transition-all duration-200"
           >
-            <img src={linkedinImg} alt="LinkedIn" className="w-6 h-6" />
+            <img src={Linkedin} alt="LinkedIn" className="w-6 h-6" />
             <span>LinkedIn</span>
           </button>
         </div>

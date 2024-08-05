@@ -5,6 +5,7 @@ import ExperienceForm from './ExperienceForm';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import loginform from "../assets/Images/loginform.svg";
+import { Link } from 'react-router-dom';
 
 const Registration = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -87,7 +88,7 @@ const Registration = () => {
       </div>
       <div className="flex flex-col justify-center w-full lg:w-1/2 p-4 lg:p-24 bg-white shadow-lg">
         <h1 className=" font-bold  text-4xl mb-6 text-start">Sign up</h1>
-        <p className="text-start text-xl font-medium text-gray-500 mb-8">If you already have an account,<br/> <a href="/login" className="text-red-500 font-bold hover:underline text-2xl">Login here!</a></p>
+        <p className="text-start text-xl font-medium text-gray-500 mb-8">If you already have an account,<br/> <Link to="/login" className="text-red-500 font-bold hover:underline text-2xl">Login here!</Link></p>
 
         <div className="flex justify-center w-full pt-10 items-center space-x-2 p-4">
           {[1, 2, 3].map((step) => (
