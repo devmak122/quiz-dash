@@ -1,51 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import CalendarComponent from './CalendarComponent';
-import ExamCard from './ExamCard';
-import axios from 'axios';
-import './Slot.css';
+import React from 'react';
+import ExamSlotCard from './ExamSlotCard'; // Ensure correct import
 
 const BookExamSlot = () => {
-  const [date, setDate] = useState(new Date());
-  const [slots, setSlots] = useState([]);
-  const [examDetails, setExamDetails] = useState([]);
-
-  useEffect(() => {
-    axios.get('/api/exams').then(response => {
-      setExamDetails(response.data);
-    });
-  }, []);
-
-  const handleDateChange = (date) => {
-    setDate(date);
-    // Fetch available slots for the selected date from backend
-    axios.get('/api/slots', { params: { date: date.toISOString().split('T')[0] } }).then(response => {
-      setSlots(response.data);
-    });
-  };
-
-  const handleSlotBooking = (slotId) => {
-    // Implement slot booking logic here
-    axios.post('/api/book-slot', { slotId }).then(response => {
-      console.log(response.data);
-    });
-  };
+  const examSlots = [
+    {
+      name: 'Full Stack Development',
+      available: 'AVAILABLE TODAY',
+      
+      times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+    {
+      name: 'Full Stack Development',
+      available: 'FULL',
+      
+      times: [],
+    },
+    {
+      name: 'Front End Development',
+      available: 'AVAILABLE TODAY',
+      
+      times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+    {
+      name: 'Back End Development',
+      available: 'AVAILABLE TODAY',
+      
+   times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+    {
+      name: 'UI UX ',
+      available: 'AVAILABLE TODAY',
+      
+   times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+    {
+      name: 'Graphic Designer ',
+      available: 'AVAILABLE TODAY',
+      
+      times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+    {
+      name: 'Digital Marketing ',
+      available: 'AVAILABLE TODAY',
+      
+      times: ['11:00 AM TO 12:00 PM', '12:00 PM TO 1:00 PM', '1:00 AM TO 2:00 PM', '2:00 AM TO 3:00 PM', '3:00 AM TO 4:00 PM'],
+    },
+  ];
 
   return (
-    <div>
-      <h1>Book Exam Slot</h1>
-      <CalendarComponent date={date} onDateChange={handleDateChange} />
-      <div className="slots">
-        {slots.map(slot => (
-          <div key={slot.id} className={`slot ${slot.isBusy ? 'busy' : ''}`} onClick={() => handleSlotBooking(slot.id)}>
-            {slot.time}
-          </div>
-        ))}
-      </div>
-      <div className="exam-details">
-        {examDetails.map(exam => (
-          <ExamCard key={exam.id} exam={exam} />
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {examSlots.map((slot, index) => (
+        <ExamSlotCard key={index} {...slot} />
+      ))}
     </div>
   );
 };

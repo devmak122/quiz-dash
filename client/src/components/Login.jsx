@@ -26,7 +26,9 @@ const Login = () => {
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
         const res = await axios.post('http://localhost:5000/api/auth/login', values);
-        localStorage.setItem('token', res.data.token);
+        const { token, user } = res.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
         toast.success('Login successful!', {
           position: 'top-center',
           autoClose: 2000,
@@ -35,7 +37,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        setTimeout(() => navigate('/DashBoard'), 3500);
+        setTimeout(() => navigate('/Dashboard'), 3500);
       } catch (err) {
         setErrors({ submit: err.response?.data?.message || 'Something went wrong. Please try again.' });
         toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
@@ -152,3 +154,4 @@ const Login = () => {
 };
 
 export default Login;
+
