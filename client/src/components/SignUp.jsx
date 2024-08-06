@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BasicInfoForm from './BasicInfoForm';
 import EducationalBackgroundForm from './EducationalBackgroundForm';
 import ExperienceForm from './ExperienceForm';
@@ -23,6 +23,17 @@ const Registration = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('registrationFormData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('registrationFormData', JSON.stringify(formData));
+  }, [formData]);
 
   const handleNext = (newData) => {
     setFormData({ ...formData, ...newData });
@@ -60,6 +71,7 @@ const Registration = () => {
           pauseOnHover: true,
           draggable: true,
         });
+        localStorage.removeItem('registrationFormData'); // Clear the stored data
         setTimeout(() => navigate('/login'), 3500);
       } else {
         const errorData = await response.json();
@@ -87,8 +99,11 @@ const Registration = () => {
         <img src={loginform} alt="Illustration" className="object-cover w-full h-full" />
       </div>
       <div className="flex flex-col justify-center w-full lg:w-1/2 p-4 lg:p-24 bg-white shadow-lg">
-        <h1 className=" font-bold  text-4xl mb-6 text-start">Sign up</h1>
-        <p className="text-start text-xl font-medium text-gray-500 mb-8">If you already have an account,<br/> <Link to="/login" className="text-red-500 font-bold hover:underline text-2xl">Login here!</Link></p>
+        <h1 className="font-bold text-4xl mb-6 text-start">Sign up</h1>
+        <p className="text-start text-xl font-medium text-gray-500 mb-8">
+          If you already have an account,<br />
+          <Link to="/login" className="text-red-500 font-bold hover:underline text-2xl">Login here!</Link>
+        </p>
 
         <div className="flex justify-center w-full pt-10 items-center space-x-2 p-4">
           {[1, 2, 3].map((step) => (

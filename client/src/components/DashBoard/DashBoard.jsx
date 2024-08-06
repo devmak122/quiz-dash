@@ -8,18 +8,36 @@ import BookExamSlot from '../BookSlot/BookExamSlot';
 const Dashboard = () => {
   const [activePage, setActivePage] = useState('home');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+
+    // Check if storedUser is null or undefined
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+
+        // Ensure parsedUser is not null and has the expected structure
+        if (parsedUser && typeof parsedUser === 'object' && parsedUser.name && parsedUser.email) {
+          setUser(parsedUser);
+        } else {
+          throw new Error('Invalid user data');
+        }
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    } else {
+      console.warn("No user data found in localStorage");
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
-
- 
-
-    
-
 
   return (
     <div className="min-h-screen flex bg-gray-100">
@@ -55,25 +73,33 @@ const Dashboard = () => {
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
               <div className="ml-4">
-                <span className="block text-lg font-medium">Vishesh Patel</span>
-                <span className="block text-sm text-gray-400">Student</span>
+                {user ? (
+                  <>
+                    <span className="block text-lg font-medium">{user.name}</span>
+                    <span className="block text-sm text-gray-400">{user.email}</span>
+                  </>
+                ) : (
+                  <span className="block text-lg font-medium">Loading...</span>
+                )}
               </div>
             </div>
             {dropdownOpen && (
               <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white font-bold text-black rounded-md shadow-lg z-50">
                 <ul className="py-2">
-                <li   className={`px-4 py-2 hover:bg-gray-100 border-b-2 border-gray-300 cursor-pointer ${activePage === 'Profile' ? 'bg-gray-800' : ''}`}
-              onClick={() => setActivePage('Profile')}
-            >
-              <span className="text-lg">Profile</span>
-            </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer"><button
-            onClick={handleLogout}
-            className="flex items-center p-2  bg-whitetransition duration-300 text-black"
-          >
-            <FiLogOut className="mr-3" />
-            <span className="text-lg">Logout</span>
-          </button></li>
+                  <li className={`px-4 py-2 hover:bg-gray-100 border-b-2 border-gray-300 cursor-pointer ${activePage === 'Profile' ? 'bg-gray-800' : ''}`}
+                    onClick={() => setActivePage('Profile')}
+                  >
+                    <span className="text-lg">Profile</span>
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center p-2 bg-whitetransition duration-300 text-black"
+                    >
+                      <FiLogOut className="mr-3" />
+                      <span className="text-lg">Logout</span>
+                    </button>
+                  </li>
                 </ul>
               </div>
             )}
@@ -81,20 +107,19 @@ const Dashboard = () => {
         </div>
       </aside>
       <main className="flex-grow p-8 overflow-y-auto">
-  <header className="flex items-center justify-between mb-6">
-    <h1 className="text-2xl font-bold">
-      {activePage === 'home' && 'Dashboard'}
-      {activePage === 'book' && 'Book Exam Slot'}
-      {activePage === 'Profile' && 'Profile'}
-    </h1>
-  </header>
-  <section>
-    {activePage === 'home' && <Home />}
-    {activePage === 'book' && <BookExamSlot />}
-    {activePage === 'Profile' && <Profile />}
-  </section>
-</main>
-
+        <header className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold">
+            {activePage === 'home' && 'Dashboard'}
+            {activePage === 'book' && 'Book Exam Slot'}
+            {activePage === 'Profile' && 'Profile'}
+          </h1>
+        </header>
+        <section>
+          {activePage === 'home' && <Home />}
+          {activePage === 'book' && <BookExamSlot />}
+          {activePage === 'Profile' && <Profile />}
+        </section>
+      </main>
     </div>
   );
 };

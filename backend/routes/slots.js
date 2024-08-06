@@ -1,32 +1,50 @@
 const express = require('express');
+const Slot = require('../models/Slot');
+const fetchuser = require('../middleware/fetchuser');
 const router = express.Router();
-const Slot = require('../models/slot');
 
-// Fetch all slots
-router.get('/slots', async (req, res) => {
+// POST /api/slots/book - Book a new slot
+router.post('/book', fetchuser, async (req, res) => {
+  const { name, specialty, time, date } = req.body;
+
   try {
-    const slots = await Slot.find();
-    res.json(slots);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const slot = new Slot({
+      name,
+      specialty,
+      time,
+      date,
+      userId: req.user.id,
+    });
+    await slot.save();
+    res.status(200).json({ message: 'Slot booked successfully' });
+  } catch (error) {
+    console.error('Error booking slot:', error);
+    res.status(500).json({ message: 'Failed to book slot' });
   }
 });
 
-// Book a slot
-router.post('/slots/book/:id', async (req, res) => {
+// DELETE /api/slots/:id - Delete a booked slot
+router.delete('/:id', fetchuser, async (req, res) => {
   try {
-    const slot = await Slot.findById(req.params.id);
-    if (!slot) return res.status(404).json({ message: 'Slot not found' });
+    const slot = await Slot.findByIdAndDelete(req.params.id);
+    if (!slot) {
+      return res.status(404).json({ message: 'Slot not found' });
+    }
+    res.status(200).json({ message: 'Slot deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting slot:', error);
+    res.status(500).json({ message: 'Failed to delete slot' });
+  }
+});
 
-    if (!slot.available) return res.status(400).json({ message: 'Slot already booked' });
-
-    slot.available = false;
-    slot.bookedBy = req.user.id; // Assuming user ID is available from auth middleware
-    await slot.save();
-
-    res.json(slot);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+// GET /api/slots - Retrieve all slots
+router.get('/', fetchuser, async (req, res) => {
+  try {
+    const slots = await Slot.find({ userId: req.user.id });
+    res.status(200).json(slots);
+  } catch (error) {
+    console.error('Error fetching slots:', error);
+    res.status(500).json({ message: 'Failed to fetch slots' });
   }
 });
 

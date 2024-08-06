@@ -1,11 +1,20 @@
-import React from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+// CalendarComponent.js
 
-const CalendarComponent = ({ date, onDateChange }) => {
+import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+const CalendarComponent = ({ selectedDate, onSelect }) => {
   return (
-    <div>
-      <Calendar onChange={onDateChange} value={date} />
+    <div className="bg-white shadow-lg p-4 rounded z-10">
+      <DatePicker
+        inline
+        selected={selectedDate}
+        onChange={onSelect}
+        minDate={new Date()}
+        dateFormat="dd/MM/yyyy"
+        className="border border-gray-300 p-2 rounded"
+      />
     </div>
   );
 };

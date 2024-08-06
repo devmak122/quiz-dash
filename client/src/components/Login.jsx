@@ -7,9 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock, FaGoogle, FaLinkedin, FaGithub } from 'react-icons/fa';
 import loginform from '../assets/Images/loginform.svg';
-import Google from '../assets/Images/Google.svg';
-import Github from '../assets/Images/Github.svg';
-import Linkedin from '../assets/Images/LinkedIn.svg';
+import Google from '../assets/Images/google.svg';
+import Github from '../assets/Images/github.svg';
+import Linkedin from '../assets/Images/linkedin.svg';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Login = () => {
           pauseOnHover: true,
           draggable: true,
         });
-        setTimeout(() => navigate('/Dashboard'), 3500);
+        setTimeout(() => navigate('/dashboard'), 3500);
       } catch (err) {
         setErrors({ submit: err.response?.data?.message || 'Something went wrong. Please try again.' });
         toast.error(err.response?.data?.message || 'Something went wrong. Please try again.');
@@ -154,4 +154,3 @@ const Login = () => {
 };
 
 export default Login;
-
