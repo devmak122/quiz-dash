@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiHome, FiCalendar, FiLogOut, FiUser } from 'react-icons/fi';
 import Home from '../Home/Home';
-import Profile from "../Profile/Profile";
+import Profile from '../Profile/Profile';
 import BookExamSlot from '../BookSlot/BookExamSlot';
 
 const Dashboard = () => {
@@ -14,29 +14,29 @@ const Dashboard = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
+    console.log('Stored user:', storedUser);
 
-    // Check if storedUser is null or undefined
-    if (storedUser) {
+    if (storedUser && storedUser !== 'undefined') {
       try {
         const parsedUser = JSON.parse(storedUser);
+        console.log('Parsed user:', parsedUser);
 
-        // Ensure parsedUser is not null and has the expected structure
-        if (parsedUser && typeof parsedUser === 'object' && parsedUser.name && parsedUser.email) {
+        if (parsedUser && parsedUser.name && parsedUser.email) {
           setUser(parsedUser);
         } else {
           throw new Error('Invalid user data');
         }
       } catch (error) {
-        console.error("Error parsing user data:", error);
+        console.error('Error parsing user data:', error);
       }
     } else {
-      console.warn("No user data found in localStorage");
+      console.log('No valid user data found in localStorage');
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate('/login');
   };
 
   return (
@@ -75,7 +75,6 @@ const Dashboard = () => {
               <div className="ml-4">
                 {user ? (
                   <>
-                    <span className="block text-lg font-medium">{user.name}</span>
                     <span className="block text-sm text-gray-400">{user.email}</span>
                   </>
                 ) : (
@@ -87,8 +86,7 @@ const Dashboard = () => {
               <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white font-bold text-black rounded-md shadow-lg z-50">
                 <ul className="py-2">
                   <li className={`px-4 py-2 hover:bg-gray-100 border-b-2 border-gray-300 cursor-pointer ${activePage === 'Profile' ? 'bg-gray-800' : ''}`}
-                    onClick={() => setActivePage('Profile')}
-                  >
+                    onClick={() => setActivePage('Profile')}>
                     <span className="text-lg">Profile</span>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mongoURL = "mongodb://localhost:27017/mydatabase"; // Add your database name
+const mongoURL = "mongodb+srv://devm4461:mGOgO6ucpGvP2fxC@cluster0.xmyrfcq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Add your database name
 
 const connectToMongo = async () => {
   try {
