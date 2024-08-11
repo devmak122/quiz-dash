@@ -9,21 +9,19 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 
-
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
 
 // Multer setup for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/'); // Specify the directory where files should be saved
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
+    cb(null, Date.now() + '-' + file.originalname); // Rename file with timestamp
+  },
 });
 
 const upload = multer({ storage: storage });
-
 // Route 1: Create user
 router.post(
   "/register",
@@ -67,7 +65,7 @@ router.post(
 
       jwt.sign(payload, JWT_SECRET, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, user }); // Return the token and user data
       });
     } catch (err) {
       console.error(err.message);
@@ -112,7 +110,7 @@ router.post(
 
       jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, user }); // Return the token and user data
       });
     } catch (error) {
       console.error("Error during login:", error.message);
@@ -136,6 +134,41 @@ router.post(
   }
 );
 
+
+// Route 4: Update user profile (login required)
+router.put('/updateProfile', fetchUser, upload.single('resume'), async (req, res) => {
+  console.log("Request User:", req.user); // Log the user from the token
+
+  try {
+    const userId = req.user._id; // Assuming _id is the field name in MongoDB
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { email, firstName, lastName, city, country, headline, description } = req.body;
+    if (email) user.email = email;
+    if (firstName) user.firstName = firstName;
+    if (lastName) user.lastName = lastName;
+    if (city) user.city = city;
+    if (country) user.country = country;
+    if (headline) user.headline = headline;
+    if (description) user.description = description;
+    if (req.file) user.resume = req.file.filename;
+
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating profile:", error); // Log any update errors
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+// Google Auth Routes
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',

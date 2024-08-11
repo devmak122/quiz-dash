@@ -63,6 +63,7 @@ const Registration = () => {
       });
 
       if (response.ok) {
+        const responseData = await response.json();
         toast.success('Registration successful!', {
           position: 'top-center',
           autoClose: 3000,
@@ -72,6 +73,7 @@ const Registration = () => {
           draggable: true,
         });
         localStorage.removeItem('registrationFormData'); // Clear the stored data
+        localStorage.setItem('user', JSON.stringify(responseData.user)); // Store user data
         setTimeout(() => navigate('/login'), 3500);
       } else {
         const errorData = await response.json();

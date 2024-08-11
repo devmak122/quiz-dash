@@ -34,36 +34,54 @@ const Dashboard = () => {
     }
   }, []);
 
+  const handlePageChange = (page) => {
+    setActivePage(page);
+    setDropdownOpen(false); // Close dropdown when changing page
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      <aside className="w-1/5 bg-gray-900 text-white flex flex-col justify-between shadow-lg">
+    <div className="flex min-h-screen">
+      <aside className="w-1/5 bg-gray-900 text-white flex flex-col justify-between h-screen overflow-hidden">
         <div className="p-5">
           <h2 className="text-3xl font-bold mb-8">Skolar</h2>
           <ul className="space-y-4">
             <li
               className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-800 transition duration-300 ${activePage === 'home' ? 'bg-gray-800' : ''}`}
-              onClick={() => setActivePage('home')}
+              onClick={() => handlePageChange('home')}
             >
               <FiHome className="mr-3" />
               <span className="text-lg">Home</span>
             </li>
             <li
               className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-800 transition duration-300 ${activePage === 'book' ? 'bg-gray-800' : ''}`}
-              onClick={() => setActivePage('book')}
+              onClick={() => handlePageChange('book')}
             >
               <FiCalendar className="mr-3" />
               <span className="text-lg">Book Exam Slot</span>
             </li>
           </ul>
         </div>
-        <div className="p-5 border-t border-gray-700 relative">
-          <div className="relative">
-            <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)} ref={dropdownRef}>
+        <div className="p-6 border-t border-gray-700 relative">
+          <div className="relative" ref={dropdownRef}>
+            <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <div className="relative w-12 h-12">
                 <img
                   src="https://via.placeholder.com/150" // Replace with user's profile picture URL
@@ -76,6 +94,7 @@ const Dashboard = () => {
                 {user ? (
                   <>
                     <span className="block text-sm text-gray-400">{user.email}</span>
+                    <span className="block text-sm text-gray-400">{user.name}</span>
                   </>
                 ) : (
                   <span className="block text-lg font-medium">Loading...</span>
@@ -86,7 +105,8 @@ const Dashboard = () => {
               <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white font-bold text-black rounded-md shadow-lg z-50">
                 <ul className="py-2">
                   <li className={`px-4 py-2 hover:bg-gray-100 border-b-2 border-gray-300 cursor-pointer ${activePage === 'Profile' ? 'bg-gray-800' : ''}`}
-                    onClick={() => setActivePage('Profile')}>
+                    onClick={() => handlePageChange('Profile')}
+                  >
                     <span className="text-lg">Profile</span>
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
