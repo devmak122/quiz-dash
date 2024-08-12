@@ -5,19 +5,20 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchuser");
-const passport = require('passport');
-const multer = require('multer');
-const path = require('path');
+const passport = require("passport");
+const multer = require("multer");
+const path = require("path");
+
 
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
 
 // Multer setup for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the directory where files should be saved
+    cb(null, "uploads/"); // Specify the directory where files should be saved
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Rename file with timestamp
+    cb(null, Date.now() + "-" + file.originalname); // Rename file with timestamp
   },
 });
 
@@ -25,7 +26,7 @@ const upload = multer({ storage: storage });
 // Route 1: Create user
 router.post(
   "/register",
-  upload.single('resume'),
+  upload.single("resume"),
   [
     // Add your validations here if needed
   ],
@@ -38,7 +39,9 @@ router.post(
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res.status(400).json({ error: "A user with this email already exists" });
+        return res
+          .status(400)
+          .json({ error: "A user with this email already exists" });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -54,7 +57,7 @@ router.post(
         interestedSubject: req.body.interestedSubject,
         skillSets: req.body.skillSets,
         yearsOfExperience: req.body.yearsOfExperience,
-        resume: req.file.path // Store the file path
+        resume: req.file.path, // Store the file path
       });
 
       const payload = {
@@ -79,7 +82,9 @@ router.post(
   "/login",
   [
     body("email").isEmail().withMessage("Please enter a valid email address"),
-    body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long"),
+    body("password")
+      .isLength({ min: 5 })
+      .withMessage("Password must be at least 5 characters long"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -93,13 +98,17 @@ router.post(
       let user = await User.findOne({ email });
       if (!user) {
         console.log("User not found.");
-        return res.status(400).json({ error: "Please try to login with correct credentials" });
+        return res
+          .status(400)
+          .json({ error: "Please try to login with correct credentials" });
       }
 
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
         console.log("Incorrect password.");
-        return res.status(400).json({ error: "Please try to login with correct credentials" });
+        return res
+          .status(400)
+          .json({ error: "Please try to login with correct credentials" });
       }
 
       const payload = {
@@ -120,82 +129,82 @@ router.post(
 );
 
 // Route 3: Get user details (login required)
-router.post(
-  "/getuser",
-  fetchUser,
-  async (req, res) => {
-    try {
-      const user = await User.findById(req.user.id).select("-password");
-      res.json(user);
-    } catch (error) {
-      console.error("Error getting user details:", error.message);
-      res.status(500).send("Internal Server Error");
-    }
-  }
-);
-
-
-// Route 4: Update user profile (login required)
-router.put('/updateProfile', fetchUser, upload.single('resume'), async (req, res) => {
-  console.log("Request User:", req.user); // Log the user from the token
-
+router.post("/getuser", fetchUser, async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming _id is the field name in MongoDB
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    const { email, firstName, lastName, city, country, headline, description } = req.body;
-    if (email) user.email = email;
-    if (firstName) user.firstName = firstName;
-    if (lastName) user.lastName = lastName;
-    if (city) user.city = city;
-    if (country) user.country = country;
-    if (headline) user.headline = headline;
-    if (description) user.description = description;
-    if (req.file) user.resume = req.file.filename;
-
-    await user.save();
+    const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (error) {
-    console.error("Error updating profile:", error); // Log any update errors
+    console.error("Error getting user details:", error.message);
     res.status(500).send("Internal Server Error");
   }
 });
 
+// Route 4: Update user profile (login required)
+router.put("/updateProfile", fetchUser, upload.single('resume'), async (req, res) => {
+  try {
+    const { name, email, phone, collegeName, degree, interestedSubject, skillSets, yearsOfExperience } = req.body;
+    const userId = req.user.id;
 
+    // Build the updated user object
+    const updatedUser = { name, email, phone, collegeName, degree, interestedSubject, skillSets, yearsOfExperience };
+
+    if (req.file) {
+      updatedUser.resume = req.file.path;
+    }
+
+    // Update the user in the database
+    const user = await User.findByIdAndUpdate(userId, updatedUser, { new: true }).select("-password");
+    res.json(user);
+  } catch (error) {
+    console.error("Error updating profile:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
 // Google Auth Routes
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication, redirect home or where you want.
-    res.redirect('/dashboard');
-  });
+    res.redirect("/dashboard");
+  }
+);
 
 // GitHub Auth Routes
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
+);
 
-router.get('/github/callback',
-  passport.authenticate('github', { failureRedirect: '/' }),
+router.get(
+  "/github/callback",
+  passport.authenticate("github", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication, redirect home or where you want.
-    res.redirect('/dashboard');
-  });
+    res.redirect("/dashboard");
+  }
+);
 
 // LinkedIn Auth Routes
-router.get('/linkedin', passport.authenticate('linkedin', { state: 'SOME STATE' }));
+router.get(
+  "/linkedin",
+  passport.authenticate("linkedin", { state: "SOME STATE" })
+);
 
-router.get('/linkedin/callback',
-  passport.authenticate('linkedin', { failureRedirect: '/' }),
+router.get(
+  "/linkedin/callback",
+  passport.authenticate("linkedin", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication, redirect home or where you want.
-    res.redirect('/dashboard');
-  });
+    res.redirect("/dashboard");
+  }
+);
 
 module.exports = router;

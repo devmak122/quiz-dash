@@ -58,8 +58,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="w-1/5 bg-gray-900 text-white flex flex-col justify-between h-screen overflow-hidden">
+    <div className="flex ">
+      <aside className="w-1/5 bg-gray-900 text-white flex flex-col justify-between h-screen  overflow-hidden">
         <div className="p-5">
           <h2 className="text-3xl font-bold mb-8">Skolar</h2>
           <ul className="space-y-4">
@@ -124,7 +124,7 @@ const Dashboard = () => {
           </div>
         </div>
       </aside>
-      <main className="flex-grow p-8 overflow-y-auto">
+      <main className="flex-grow p-8 ">
         <header className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">
             {activePage === 'home' && 'Dashboard'}

@@ -50,30 +50,31 @@ const ProfileUpdateForm = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const formData = new FormData();
-
+  
     Object.keys(values).forEach((key) => {
       if (key === 'resume' && values[key] === null) return;
       formData.append(key, values[key]);
     });
-
+  
     const token = localStorage.getItem('token');
-
+    console.log('FormData:', ...formData); // Debugging step
+  
     try {
       const response = await fetch('http://localhost:5000/api/auth/updateProfile', {
         method: 'PUT',
         body: formData,
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Profile update failed:', errorData.message || 'Unknown error');
         alert(`Profile update failed: ${errorData.message || 'Unknown error'}`);
         return;
       }
-
+  
       const data = await response.json();
       alert('Profile updated successfully!');
       localStorage.setItem('user', JSON.stringify(data));
@@ -84,13 +85,13 @@ const ProfileUpdateForm = () => {
       setSubmitting(false);
     }
   };
-
+  
 
 
   return (
-    <div className="flex min-h-screen p-3 bg-gray-100">
-      <div className="w-full p-2 overflow-y-hidden">
-        <h2 className="text-4xl font-semibold mb-6 text-gray-800 text-center">Edit Your Profile</h2>
+    <div className="flex  p-3 ">
+      <div className="w-full p-2">
+        <h2 className="text-4xl font-semibold text-gray-800 text-center">Edit Your Profile</h2>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -219,7 +220,7 @@ const ProfileUpdateForm = () => {
 
               {/* Years of Experience Field */}
               <div className="col-span-2 md:col-span-1">
-                <label htmlFor="yearsOfExperience" className="block mb-2 text-sm font-semibold text-gray-700">Years of Experience</label>
+                <label htmlFor="yearsOfExperience" className="block  text-sm font-semibold text-gray-700">Years of Experience</label>
                 <div className="relative">
                   {/* <FaLaptopCode className="absolute left-3 top-3 text-gray-500 text-xl" /> */}
                   <Field
