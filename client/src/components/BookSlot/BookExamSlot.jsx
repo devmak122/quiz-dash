@@ -1,38 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import SlotCard from './ExamCard';
-import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SlotBooking = () => {
   const slotData = [
-    {
-      id: 1,
-      title: 'React Workshop',
-      description: 'Deep dive into React.js',
-      specialty: 'Web Development',
-      available: true,
-      times: ['11:00 AM-12:00 PM', '12:00 PM-1:00 PM', '1:00 PM-2:00 PM'],
-      icon: '🌐',
-    },
-    {
-      id: 1,
-      title: 'React Workshop',
-      description: 'Deep dive into React.js',
-      specialty: 'Web Development',
-      available: true,
-      times: ['11:00 AM-12:00 PM', '12:00 PM-1:00 PM', '1:00 PM-2:00 PM'],
-      icon: '🌐',
-    },
-    {
-      id: 1,
-      title: 'React Workshop',
-      description: 'Deep dive into React.js',
-      specialty: 'Web Development',
-      available: true,
-      times: ['11:00 AM-12:00 PM', '12:00 PM-1:00 PM', '1:00 PM-2:00 PM'],
-      icon: '🌐',
-    },
     {
       id: 1,
       title: 'React Workshop',
@@ -80,6 +53,7 @@ const SlotBooking = () => {
     },
   ];
 
+
   const handleBookSlot = async (slotId, time, date) => {
     const formattedDate = date.toLocaleDateString('en-GB').split('/').reverse().join('-');
     const slot = slotData.find((s) => s.id === slotId);
@@ -108,7 +82,7 @@ const SlotBooking = () => {
   };
 
   return (
-    <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {slotData.map((slot) => (
         <SlotCard key={slot.id} slot={slot} onBookSlot={handleBookSlot} />
       ))}

@@ -122,7 +122,6 @@ const Login = () => {
           >
             Login
           </button>
-        </form>
         <div className="my-8 text-center text-gray-600">or continue with</div>
         <div className="flex justify-center space-x-4 mt-4">
           <button
@@ -147,6 +146,7 @@ const Login = () => {
             <span>LinkedIn</span>
           </button>
         </div>
+        </form>
       </div>
       <ToastContainer />
     </div>

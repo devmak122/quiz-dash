@@ -172,10 +172,15 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    // Successful authentication, redirect home or where you want.
-    res.redirect("/dashboard");
+    // Assuming user data is available in req.user
+    const user = req.user;
+    const token = "generated_token"; // Example: generate a JWT token
+
+    // Store the token and user data in cookies or send them to the frontend
+    res.redirect(`http://localhost:3000/dashboard?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
   }
 );
+
 
 // GitHub Auth Routes
 router.get(
@@ -188,7 +193,7 @@ router.get(
   passport.authenticate("github", { failureRedirect: "/" }),
   (req, res) => {
     // Successful authentication, redirect home or where you want.
-    res.redirect("/dashboard");
+    res.redirect("/login");
   }
 );
 

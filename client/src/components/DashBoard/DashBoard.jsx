@@ -14,13 +14,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    console.log('Stored user:', storedUser);
-
     if (storedUser && storedUser !== 'undefined') {
       try {
         const parsedUser = JSON.parse(storedUser);
-        console.log('Parsed user:', parsedUser);
-
         if (parsedUser && parsedUser.name && parsedUser.email) {
           setUser(parsedUser);
         } else {
@@ -58,20 +54,21 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex ">
-      <aside className="w-1/5 bg-gray-900 text-white flex flex-col justify-between h-screen  overflow-hidden">
+    <div>
+    <div className="flex min-h-screen bg-gray-50">
+      <aside className="w-1/5 bg-[#1D3D81] text-white flex flex-col justify-between h-screen shadow-lg">
         <div className="p-5">
-          <h2 className="text-3xl font-bold mb-8">Skolar</h2>
+          <h2 className="text-3xl font-bold text-red-500 mb-8">Skolar</h2>
           <ul className="space-y-4">
             <li
-              className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-800 transition duration-300 ${activePage === 'home' ? 'bg-gray-800' : ''}`}
+              className={`flex items-center p-3 rounded-md cursor-pointer hover:bg-red-500 hover:text-white transition duration-300 ${activePage === 'home' ? 'bg-red-500 text-white' : ''}`}
               onClick={() => handlePageChange('home')}
             >
               <FiHome className="mr-3" />
               <span className="text-lg">Home</span>
             </li>
             <li
-              className={`flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-800 transition duration-300 ${activePage === 'book' ? 'bg-gray-800' : ''}`}
+              className={`flex items-center p-3 rounded-md cursor-pointer hover:bg-red-500 hover:text-white transition duration-300 ${activePage === 'book' ? 'bg-red-500 text-white' : ''}`}
               onClick={() => handlePageChange('book')}
             >
               <FiCalendar className="mr-3" />
@@ -79,22 +76,22 @@ const Dashboard = () => {
             </li>
           </ul>
         </div>
-        <div className="p-6 border-t border-gray-700 relative">
+        <div className="p-6 border-t border-gray-300 relative">
           <div className="relative" ref={dropdownRef}>
             <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
               <div className="relative w-12 h-12">
                 <img
                   src="https://via.placeholder.com/150" // Replace with user's profile picture URL
                   alt="Profile"
-                  className="w-full h-full rounded-full border-2 border-gray-200"
+                  className="w-full h-full rounded-full border-2 border-gray-300"
                 />
                 <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
               </div>
               <div className="ml-4">
                 {user ? (
                   <>
-                    <span className="block text-sm text-gray-400">{user.email}</span>
-                    <span className="block text-sm text-gray-400">{user.name}</span>
+                    <span className="block text-sm">{user.email}</span>
+                    <span className="block text-sm">{user.name}</span>
                   </>
                 ) : (
                   <span className="block text-lg font-medium">Loading...</span>
@@ -102,20 +99,24 @@ const Dashboard = () => {
               </div>
             </div>
             {dropdownOpen && (
-              <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white font-bold text-black rounded-md shadow-lg z-50">
-                <ul className="py-2">
-                  <li className={`px-4 py-2 hover:bg-gray-100 border-b-2 border-gray-300 cursor-pointer ${activePage === 'Profile' ? 'bg-gray-800' : ''}`}
+              <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white  text-gray-900 rounded-md shadow-lg z-50">
+                <ul className="py-2  ">
+                  <li
+                    className={`px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer ${activePage === 'Profile' ? 'bg-red-500 text-white' : ''}`}
                     onClick={() => handlePageChange('Profile')}
                   >
-                    <span className="text-lg">Profile</span>
+                    <div className="profile flex item-center p-1"> <FiUser className="mr-3 text-2xl" />
+                      <span className="text-lg">Profile</span></div>
+                    
+                    <div className="border-t-2 "></div>
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  <li className="px-4 py-1 hover:bg-red-500 hover:text-white cursor-pointer">
                     <button
                       onClick={handleLogout}
-                      className="flex items-center p-2 bg-whitetransition duration-300 text-black"
+                      className="flex items-center p-1  transition duration-300"
                     >
-                      <FiLogOut className="mr-3" />
-                      <span className="text-lg">Logout</span>
+                      <FiLogOut className="mr-3 text-red-500 text-2xl" />
+                      <span className="text-lg text-white-500">Logout</span>
                     </button>
                   </li>
                 </ul>
@@ -124,9 +125,9 @@ const Dashboard = () => {
           </div>
         </div>
       </aside>
-      <main className="flex-grow p-8 ">
+      <main className="flex-grow p-8 overflow-y-auto">
         <header className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-3xl font-bold text-gray-900">
             {activePage === 'home' && 'Dashboard'}
             {activePage === 'book' && 'Book Exam Slot'}
             {activePage === 'Profile' && 'Profile'}
@@ -138,6 +139,7 @@ const Dashboard = () => {
           {activePage === 'Profile' && <Profile />}
         </section>
       </main>
+    </div>
     </div>
   );
 };
