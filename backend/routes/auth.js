@@ -9,7 +9,6 @@ const passport = require("passport");
 const multer = require("multer");
 const path = require("path");
 
-
 const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
 
 // Multer setup for file storage
@@ -23,6 +22,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 // Route 1: Create user
 router.post(
   "/register",
@@ -57,7 +57,7 @@ router.post(
         interestedSubject: req.body.interestedSubject,
         skillSets: req.body.skillSets,
         yearsOfExperience: req.body.yearsOfExperience,
-        resume: req.file.path, // Store the file path
+        resume: req.file ? req.file.path : null, // Store the file path
       });
 
       const payload = {
@@ -161,7 +161,6 @@ router.put("/updateProfile", fetchUser, upload.single('resume'), async (req, res
   }
 });
 
-
 // Google Auth Routes
 router.get(
   "/google",
@@ -172,15 +171,14 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    // Assuming user data is available in req.user
+    // Successful authentication, redirect with user data
     const user = req.user;
-    const token = "generated_token"; // Example: generate a JWT token
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
-    // Store the token and user data in cookies or send them to the frontend
+    // Redirect to the frontend with user data and token
     res.redirect(`http://localhost:3000/dashboard?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
   }
 );
-
 
 // GitHub Auth Routes
 router.get(
@@ -192,8 +190,10 @@ router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
   (req, res) => {
-    // Successful authentication, redirect home or where you want.
-    res.redirect("/login");
+    // Successful authentication, redirect with user data
+    const user = req.user;
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    res.redirect(`http://localhost:3000/dashboard?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
   }
 );
 
@@ -207,8 +207,10 @@ router.get(
   "/linkedin/callback",
   passport.authenticate("linkedin", { failureRedirect: "/" }),
   (req, res) => {
-    // Successful authentication, redirect home or where you want.
-    res.redirect("/dashboard");
+    // Successful authentication, redirect with user data
+    const user = req.user;
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    res.redirect(`http://localhost:3000/dashboard?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
   }
 );
 
