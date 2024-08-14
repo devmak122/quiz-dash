@@ -1,3 +1,6 @@
+
+//DashBoard.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiHome, FiCalendar, FiLogOut, FiUser } from 'react-icons/fi';
@@ -46,6 +49,7 @@ const Dashboard = () => {
       }
     }
   }, [navigate]);
+  
 
   const handlePageChange = (page) => {
     setActivePage(page);

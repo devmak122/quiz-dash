@@ -11,10 +11,9 @@ const CalendarComponent = ({ selectedDate, onSelect }) => {
         onChange={onSelect}
         minDate={new Date()}
         dateFormat="dd/MM/yyyy"
-        className="border border-gray-300 p-3 rounded-md focus:border-blue-500"
+        className="border border-gray-300 p-3 rounded-md focus:border-red-500"
       />
     </div>
   );
 };
-
 export default CalendarComponent;
