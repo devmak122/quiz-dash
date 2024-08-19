@@ -90,7 +90,8 @@ const SlotBooking = () => {
   };
 
   return (
-    <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="mobile:overflow-y-clip ">
+    <div className="p-6 mobile:p-3 grid mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-8">
       {slotData.map((slot) => (
         <SlotCard key={slot.id} slot={slot} onBookSlot={handleBookSlot} />
       ))}
@@ -99,6 +100,7 @@ const SlotBooking = () => {
         autoClose={3000}
         hideProgressBar={false}
       />
+      </div>
     </div>
   );
 };

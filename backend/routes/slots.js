@@ -46,15 +46,21 @@ router.delete('/:id', fetchuser, async (req, res) => {
   }
 });
 
-// GET /api/slots - Retrieve all slots for the authenticated user
-router.get('/', fetchuser, async (req, res) => {
+// GET /api/slots/bookedslot - Retrieve all slots for the authenticated user// routes/slots.js (or wherever your routes are defined)
+router.get('/booked-slots', fetchuser, async (req, res) => {
   try {
-    const slots = await Slot.find({ 'user.email': req.user.email }); // Adjust query as needed
-    res.status(200).json(slots);
+    console.log('User Email:', req.user.email); // Log user email for debugging
+
+    const bookedSlots = await Slot.find({ 'user.email': req.user.email });
+    console.log('Fetched Slots:', bookedSlots); // Log fetched slots
+
+    res.json(bookedSlots);
   } catch (error) {
-    console.error('Error fetching slots:', error);
-    res.status(500).json({ message: 'Failed to fetch slots' });
+    console.error('Error fetching booked slots:', error);
+    res.status(500).json({ message: 'Error fetching booked slots' });
   }
 });
+
+
 
 module.exports = router;

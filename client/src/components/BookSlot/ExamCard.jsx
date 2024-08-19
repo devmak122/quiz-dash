@@ -44,23 +44,23 @@ const SlotCard = ({ slot, onBookSlot }) => {
   };
 
   return (
-    <div className={`max-w-sm rounded-lg border-l-4 p-6 relative ${cardColors[slot.id]} shadow-md`}>
-      <div className="flex items-center justify-between mb-4">
-        <div className="text-4xl">{slot.icon}</div>
-        <div className="text-right">
+    <div className={`max-w-sm  overflow-y-hidden rounded-lg border-l-4 p-6 relative ${cardColors[slot.id]} shadow-md`}>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
+        <div className="text-3xl sm:text-4xl">{slot.icon}</div>
+        <div className="text-right mt-4 sm:mt-0">
           <p className="font-semibold text-lg">{slot.specialty}</p>
           <p className={slot.available ? 'text-green-500' : 'text-red-500'}>
             {slot.available ? 'AVAILABLE' : 'FULL'}
           </p>
         </div>
       </div>
-      <div className="font-bold text-2xl mb-4">{slot.title}</div>
-      <p className="mb-6">{slot.description}</p>
+      <div className="font-bold text-xl sm:text-2xl mb-4">{slot.title}</div>
+      <p className="text-sm sm:text-base mb-6">{slot.description}</p>
 
       <div className="mb-6">
         <button
           onClick={toggleModal}
-          className="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700"
+          className="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 text-sm sm:text-base"
         >
           Select Date & Time
         </button>
@@ -68,13 +68,13 @@ const SlotCard = ({ slot, onBookSlot }) => {
 
       {selectedDate && selectedTimeSlot && (
         <div className="mb-4">
-          <p className="font-semibold">Date: {selectedDate.toLocaleDateString('en-GB')}</p>
-          <p className="font-semibold">Time Slot: {selectedTimeSlot}</p>
+          <p className="font-semibold text-sm sm:text-base">Date: {selectedDate.toLocaleDateString('en-GB')}</p>
+          <p className="font-semibold text-sm sm:text-base">Time Slot: {selectedTimeSlot}</p>
         </div>
       )}
 
       <button
-        className="bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full hover:bg-blue-800"
+        className="bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full hover:bg-blue-800 text-sm sm:text-base"
         onClick={handleBook}
         disabled={!slot.available}
       >
@@ -82,11 +82,11 @@ const SlotCard = ({ slot, onBookSlot }) => {
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-50">
+          <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg relative">
             <div className="mb-4 flex justify-between items-center">
-              <h3 className="text-lg font-bold">Select Date & Time Slot</h3>
-              <button className="text-gray-500 hover:text-gray-800" onClick={toggleModal}>
+              <h3 className="text-lg font-bold sm:text-xl">Select Date & Time Slot</h3>
+              <button className="text-gray-500 hover:text-gray-800 text-xl" onClick={toggleModal}>
                 ✖
               </button>
             </div>
@@ -101,7 +101,7 @@ const SlotCard = ({ slot, onBookSlot }) => {
                 id="timeSlot"
                 value={selectedTimeSlot || ''}
                 onChange={handleTimeSlotChange}
-                className="w-full border border-gray-300 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm sm:text-base"
               >
                 {generateTimeSlots(selectedDate).map((slot, index) => (
                   <option key={index} value={slot}>
@@ -112,7 +112,7 @@ const SlotCard = ({ slot, onBookSlot }) => {
             </div>
             <div className="flex justify-end">
               <button
-                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 text-sm sm:text-base"
                 onClick={toggleModal}
               >
                 Confirm
@@ -122,6 +122,8 @@ const SlotCard = ({ slot, onBookSlot }) => {
         </div>
       )}
     </div>
+
+
   );
 };
 

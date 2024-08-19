@@ -20,7 +20,11 @@ const port = process.env.PORT || 5000;
 connectToMongo();
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: '*', // Your frontend origin
+  methods: ['GET', 'POST','PUT','DELETE'],
+  allowedHeaders: ['Content-Type', 'auth-token']
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

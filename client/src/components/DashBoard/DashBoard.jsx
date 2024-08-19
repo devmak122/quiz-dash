@@ -1,6 +1,3 @@
-
-//DashBoard.jsx
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiHome, FiCalendar, FiLogOut, FiUser } from 'react-icons/fi';
@@ -49,7 +46,6 @@ const Dashboard = () => {
       }
     }
   }, [navigate]);
-  
 
   const handlePageChange = (page) => {
     setActivePage(page);
@@ -75,44 +71,51 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <div className="flex min-h-screen bg-gray-50">
-        <aside className="w-1/5 bg-[#1D3D81] text-white flex flex-col justify-between h-screen shadow-lg">
+    <div className="min-h-screen bg-white">
+      <div className="flex laptop:flex-row mobile:flex-col tablet:flex-row h-full">
+
+        {/* Sidebar for larger devices */}
+        <aside className="fixed mobile:hidden tablet:hidden top-0 left-0 h-screen w-1/4 tablet:w-1/5 bg-gradient-to-b from-[#1D3D81] to-[#27368D] text-white flex flex-col justify-between shadow-xl z-10">
           <div className="p-5">
-            <h2 className="text-3xl font-bold text-red-500 mb-8">Skolar</h2>
-            <ul className="space-y-4">
+            <h2 className="text-4xl font-bold text-red-500 mb-10 tracking-wide">Skolar</h2>
+            <ul className="space-y-6">
               <li
-                className={`flex items-center p-3 rounded-md cursor-pointer hover:bg-red-500 hover:text-white transition duration-300 ${activePage === 'home' ? 'bg-red-500 text-white' : ''}`}
+                className={`flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-600 hover:text-white ${activePage === 'home' ? 'bg-red-600 text-white' : ''}`}
                 onClick={() => handlePageChange('home')}
               >
-                <FiHome className="mr-3" />
-                <span className="text-lg">Home</span>
+                <div className="p-2 bg-white rounded-full mr-3">
+                  <FiHome className="text-red-600 text-xl" />
+                </div>
+                <span className="text-xl">Home</span>
               </li>
               <li
-                className={`flex items-center p-3 rounded-md cursor-pointer hover:bg-red-500 hover:text-white transition duration-300 ${activePage === 'book' ? 'bg-red-500 text-white' : ''}`}
+                className={`flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-600 hover:text-white ${activePage === 'book' ? 'bg-red-600 text-white' : ''}`}
                 onClick={() => handlePageChange('book')}
               >
-                <FiCalendar className="mr-3" />
-                <span className="text-lg">Book Exam Slot</span>
+                <div className="p-2 bg-white rounded-full mr-3">
+                  <FiCalendar className="text-red-600 text-xl" />
+                </div>
+                <span className="text-xl">Book Exam Slot</span>
               </li>
             </ul>
           </div>
+
           <div className="p-6 border-t border-gray-300 relative">
             <div className="relative" ref={dropdownRef}>
               <div className="flex items-center cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
-                <div className="relative w-12 h-12">
+                <div className="relative w-14 h-14">
                   <img
-                    src="https://via.placeholder.com/150" // Replace with user's profile picture URL
+                    src="https://via.placeholder.com/150"
                     alt="Profile"
-                    className="w-full h-full rounded-full border-2 border-gray-300"
+                    className="w-full h-full rounded-full border-4 border-gray-300 shadow-lg"
                   />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                  <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
                 </div>
                 <div className="ml-4">
                   {user ? (
                     <>
-                      <span className="block text-sm">{user.email}</span>
-                      <span className="block text-sm">{user.name}</span>
+                      <span className="block text-sm font-semibold">{user.email}</span>
+                      <span className="block text-sm font-semibold">{user.name}</span>
                     </>
                   ) : (
                     <span className="block text-lg font-medium">Loading...</span>
@@ -120,19 +123,16 @@ const Dashboard = () => {
                 </div>
               </div>
               {dropdownOpen && (
-                <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white text-gray-900 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 top-0 mt-10 transform -translate-y-full w-64 bg-white text-gray-900 rounded-md shadow-xl z-50">
                   <ul className="py-2">
                     <li
-                      className={`px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer ${activePage === 'Profile' ? 'bg-red-500 text-white' : ''}`}
+                      className={`px-4 py-3 hover:bg-red-600 hover:text-white cursor-pointer ${activePage === 'Profile' ? 'bg-red-600 text-white' : ''}`}
                       onClick={() => handlePageChange('Profile')}
                     >
-                      <div className="profile flex item-center p-1">
-                        <FiUser className="mr-3 text-2xl" />
-                        <span className="text-lg">Profile</span>
-                      </div>
-                      <div className="border-t-2"></div>
+                      <FiUser className="mr-3 text-2xl" />
+                      <span className="text-lg">Profile</span>
                     </li>
-                    <li className="px-4 py-1 hover:bg-red-500 hover:text-white cursor-pointer">
+                    <li className="px-4 py-3 hover:bg-red-600 hover:text-white cursor-pointer">
                       <button
                         onClick={handleLogout}
                         className="flex items-center p-1 transition duration-300"
@@ -147,22 +147,61 @@ const Dashboard = () => {
             </div>
           </div>
         </aside>
-        <main className="flex-grow p-8 overflow-y-auto">
+
+        {/* Main content */}
+        
+
+        <main className="mobile:flex-grow p-8 overflow-y-auto laptop:ml-auto laptop:w-3/4 tablet:w-4/5 laptop:p-8 laptop:overflow-y-auto laptop:h-screen ">
           <header className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-4xl font-extrabold text-gray-900  p-3 ">
               {activePage === 'home' && 'Dashboard'}
               {activePage === 'book' && 'Book Exam Slot'}
               {activePage === 'Profile' && 'Profile'}
             </h1>
           </header>
-          <section>
+          <section className="bg-white  p-1">
             {activePage === 'home' && <Home />}
             {activePage === 'book' && <BookExamSlot />}
             {activePage === 'Profile' && <Profile />}
           </section>
         </main>
+
+
+        {/* Bottom navigation for mobile and tablet */}
+        <div className="flex laptop:hidden justify-around fixed bottom-0 w-full bg-[#1D3D81] text-white p-4 lg:p-3 shadow-lg rounded-t-xl z-50">
+          <div
+            className={`flex flex-col items-center justify-center ${activePage === 'home' ? 'text-red-500' : ''}`}
+            onClick={() => handlePageChange('home')}
+          >
+            <FiHome className={`text-2xl lg:text-3xl ${activePage === 'home' ? 'text-red-500 transform scale-110' : 'text-white'}`} />
+            <span className={`text-xs lg:text-sm mt-1 ${activePage === 'home' ? 'text-red-500' : ''}`}>Home</span>
+          </div>
+          <div
+            className={`flex flex-col items-center justify-center ${activePage === 'book' ? 'text-red-500' : ''}`}
+            onClick={() => handlePageChange('book')}
+          >
+            <FiCalendar className={`text-2xl lg:text-3xl ${activePage === 'book' ? 'text-red-500 transform scale-110' : 'text-white'}`} />
+            <span className={`text-xs lg:text-sm mt-1 ${activePage === 'book' ? 'text-red-500' : ''}`}>Book Slot</span>
+          </div>
+          <div
+            className={`flex flex-col items-center justify-center ${activePage === 'Profile' ? 'text-red-500' : ''}`}
+            onClick={() => handlePageChange('Profile')}
+          >
+            <FiUser className={`text-2xl lg:text-3xl ${activePage === 'Profile' ? 'text-red-500 transform scale-110' : 'text-white'}`} />
+            <span className={`text-xs lg:text-sm mt-1 ${activePage === 'Profile' ? 'text-red-500' : ''}`}>Profile</span>
+          </div>
+          <div
+            className="flex flex-col items-center justify-center"
+            onClick={handleLogout}
+          >
+            <FiLogOut className="text-2xl lg:text-3xl text-white hover:text-red-500 transition-transform duration-300" />
+            <span className="text-xs lg:text-sm mt-1">Logout</span>
+          </div>
+        </div>
       </div>
     </div>
+
+
   );
 };
 

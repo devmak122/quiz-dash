@@ -96,11 +96,11 @@ const Registration = () => {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden ">
       <div className="hidden lg:flex w-3/4 bg-cover bg-center relative">
         <img src={loginform} alt="Illustration" className="object-cover w-full h-full" />
       </div>
-      <div className="flex flex-col justify-center w-full lg:w-1/2 p-4 lg:p-24 bg-white shadow-lg">
+      <div className="flex flex-col justify-center w-full lg:w-1/2 p-8 lg:p-24 bg-white shadow-lg">
         <h1 className="font-bold text-4xl mb-6 text-start">Sign up</h1>
         <p className="text-start text-xl font-medium text-gray-500 mb-8">
           If you already have an account,<br />

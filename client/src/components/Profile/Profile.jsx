@@ -89,9 +89,11 @@ const ProfileUpdateForm = () => {
 
 
   return (
-    <div className="flex min-h-screen p-3 bg-gray-100">
+    <div className="flex min-h-screen p-3 mobile:mb-10">
       <div className="w-full p-2 overflow-y-hidden">
-        <h2 className="text-4xl font-semibold mb-6 text-gray-800 text-center">Edit Your Profile</h2>
+        <h2 className="text-3xl mobile:text-2xl font-semibold mb-6 text-gray-800 text-center">
+          Edit Your Profile
+        </h2>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -99,11 +101,11 @@ const ProfileUpdateForm = () => {
           enableReinitialize
         >
           {({ isSubmitting, setFieldValue }) => (
-            <Form className="grid grid-cols-3 gap-8">
+            <Form className="grid grid-cols-1 mobile:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4 mobile:gap-2">
               {/* Name Field (Read-only) */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="name" className="block text-sm font-semibold text-gray-700">First Name</label>
-                <FaUser className="absolute left-3 top-3 text-red-500 text-xl" />
+                {/* <FaUser className="absolute left-3 top-3 text-red-500 text-xl" /> */}
                 <Field
                   type="text"
                   name="name"
@@ -115,9 +117,9 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Email Field (Read-only) */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
-                <FaEnvelope className="absolute left-3 top-3 text-gray-500" />
+                {/* <FaEnvelope className="absolute left-3 top-3 text-gray-500" /> */}
                 <Field
                   type="email"
                   name="email"
@@ -129,9 +131,9 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Phone Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="phone" className="block text-sm font-semibold text-gray-700">Phone Number</label>
-                <FaEnvelope className="absolute left-3 top-3 text-gray-500" />
+                {/* <FaPhone className="absolute left-3 top-3 text-gray-500 text-xl" /> */}
                 <Field
                   type="text"
                   name="phone"
@@ -142,9 +144,10 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Password Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700">Password</label>
-                 <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
+                {/* <FaLock className="absolute left-3 top-3 text-gray-500 text-xl" /> */}
+                <Field
                   type="password"
                   name="password"
                   id="password"
@@ -154,9 +157,10 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* College Name Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="collegeName" className="block text-sm font-semibold text-gray-700">College Name</label>
-                 <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
+                {/* <FaUniversity className="absolute left-3 top-3 text-gray-500 text-xl" /> */}
+                <Field
                   type="text"
                   name="collegeName"
                   id="collegeName"
@@ -166,9 +170,9 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Degree Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="degree" className="block text-sm font-semibold text-gray-700">Degree</label>
-                 <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
+                <Field
                   as="select"
                   id="degree"
                   name="degree"
@@ -185,9 +189,9 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Interested Subject Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="interestedSubject" className="block text-sm font-semibold text-gray-700">Interested Subject</label>
-                 <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
+                <Field
                   as="select"
                   id="interestedSubject"
                   name="interestedSubject"
@@ -210,9 +214,9 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Skill Sets Field */}
-              <div className="col-span-2 md:col-span-1">
+              <div className="col-span-1">
                 <label htmlFor="skillSets" className="block text-sm font-semibold text-gray-700">Skill Sets</label>
-                 <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
+                <Field
                   type="text"
                   name="skillSets"
                   id="skillSets"
@@ -222,29 +226,26 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Years of Experience Field */}
-              <div className="col-span-2 md:col-span-1">
-                <label htmlFor="yearsOfExperience" className="block mb-2 text-sm font-semibold text-gray-700">Years of Experience</label>
-                <div className="relative">
-                  <FaLaptopCode className="absolute left-3 top-3 text-gray-500 text-xl" />
-                   <FaEnvelope className="absolute left-3 top-3 text-gray-500" /><Field
-                    as="select"
-                    id="yearsOfExperience"
-                    name="yearsOfExperience"
-                    className="mt-2 block w-full rounded-xl border-gray-300 shadow-sm py-3 px-4 focus:border-blue-500 focus:ring-blue-500"
-                  >
-                    <option value="">Your Experience</option>
-                    <option value="0">Fresher</option>
-                    <option value="1">0 to 1 year</option>
-                    <option value="2">1 to 2 years</option>
-                    <option value="3">2 to 3 years</option>
-                    <option value="4">3 to 4 years</option>
-                  </Field>
-                </div>
+              <div className="col-span-1">
+                <label htmlFor="yearsOfExperience" className="block text-sm font-semibold text-gray-700">Years of Experience</label>
+                <Field
+                  as="select"
+                  id="yearsOfExperience"
+                  name="yearsOfExperience"
+                  className="mt-2 block w-full rounded-xl border-gray-300 shadow-sm py-3 px-4 focus:border-blue-500 focus:ring-blue-500"
+                >
+                  <option value="">Your Experience</option>
+                  <option value="0">Fresher</option>
+                  <option value="1">0 to 1 year</option>
+                  <option value="2">1 to 2 years</option>
+                  <option value="3">2 to 3 years</option>
+                  <option value="4">3 to 4 years</option>
+                </Field>
                 <ErrorMessage name="yearsOfExperience" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
               {/* Resume Upload Field */}
-              <div className="col-span-2">
+              <div className="col-span-1">
                 <label htmlFor="resume" className="block text-sm font-semibold text-gray-700">Upload Resume</label>
                 <input
                   id="resume"
@@ -257,7 +258,7 @@ const ProfileUpdateForm = () => {
               </div>
 
               {/* Submit Button */}
-              <div className="col-span-2 flex justify-center">
+              <div className="col-span-1 flex justify-center">
                 <button
                   type="submit"
                   className="py-3 px-5 bg-red-500 text-white text-xl font-semibold rounded-lg transition duration-300 ease-in-out"
