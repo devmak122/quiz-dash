@@ -30,35 +30,7 @@ router.post('/book', fetchuser, async (req, res) => {
     }
 });
 
-// DELETE /api/slots/:id - Delete a booked slot
-router.delete('/:id', fetchuser, async (req, res) => {
-  try {
-    const slot = await Slot.findByIdAndDelete(req.params.id);
-    if (!slot) {
-      return res.status(404).json({ message: 'Slot not found' });
-    }
-    res.status(200).json({ message: 'Slot deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting slot:', error);
-    res.status(500).json({ message: 'Failed to delete slot' });
-  }
-});
 
-// // GET /api/slots/booked-slots - Retrieve all slots for the authenticated user
-// router.get('/booked-slots', fetchuser, async (req, res) => {
-//   try {
-//     console.log('User Email:', req.user.email);
-//      // Log user email for debugging
-
-//     const bookedSlots = await Slot.find({ 'user.email': req.user.email });
-//     // console.log('Fetched Slots:', bookedSlots); // Log fetched slots
-
-//     res.json(bookedSlots);
-//   } catch (error) {
-//     console.error('Error fetching booked slots:', error);
-//     res.status(500).json({ message: 'Error fetching booked slots' + error.message });
-//   }
-// });
 // GET /api/slots/booked-slots/:email - Retrieve all slots for the specified email
 router.get('/booked-slots/:email', fetchuser, async (req, res) => {
   try {
@@ -73,5 +45,56 @@ router.get('/booked-slots/:email', fetchuser, async (req, res) => {
     res.status(500).json({ message: 'Error fetching booked slots' });
   }
 });
+
+
+
+router.post('/remove/:id', fetchuser, async (req, res) => {
+  try {
+    const slotId = req.params.id;
+    console.log('Slot ID:', slotId); // For debugging
+
+    const slot = await Slot.findByIdAndDelete(slotId);
+
+    if (!slot) {
+      res.status(404).json({ message: 'Slot not found' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Slot removed successfully' });
+  } catch (error) {
+    console.error('Error removing slot:', error);
+    res.status(500).json({ message: 'Failed to remove slot' });
+  }
+});
+// DELETE /api/slots/remove-slot/:slotId
+// router.delete('/remove-slot/:slotId', fetchuser, async (req, res) => {
+//   try {
+//     const { slotId } = req.params;
+//     const userId = req.user.id;
+
+//     console.log('Slot ID:', slotId); // Log the slot ID
+//     console.log('User ID:', userId); // Log the user ID
+
+//     // Find the slot by ID and make sure it belongs to the authenticated user
+//     const slot = await Slot.findOne({ _id: req.params.id, 'user.email': req.user.email });
+//     if (!slot) {
+//       console.error('Slot not found or not authorized to delete'); // Log the error
+//       console.error('Slot ID:', req.params.id); // Log the slot ID
+//       console.error('User email:', req.user.email); // Log the user email
+//       res.status(404).json({ error: 'Slot not found or not authorized to delete' });
+//       return;
+//     }
+//     // Remove the slot
+//     await slot.remove();
+
+//     console.log('Slot removed successfully'); // Log the success message
+//     return res.status(200).json({ message: 'Slot removed successfully' });
+//   } catch (error) {
+//     console.error('Error removing slot:', error.message); // Log the error message
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
 
 module.exports = router;

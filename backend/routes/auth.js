@@ -12,27 +12,25 @@ const passport = require("passport");
 const multer = require("multer");
 const path = require("path");
 
-const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; // Replace this with your own secret
+const JWT_SECRET = "HELLO DEV IS A GOOD DEV"; 
 
-// Multer setup for file storage
+                  // <-----------------code for resume storage--------------->
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Specify the directory where files should be saved
+    cb(null, "uploads/"); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Rename file with timestamp
+    cb(null, Date.now() + "-" + file.originalname); 
   },
 });
 
 const upload = multer({ storage: storage });
 
-// Route 1: Create user
+// <-----------------------------------------------------------------Route 1: Create user---------------------------------->
 router.post(
   "/register",
   upload.single("resume"),
-  [
-    // Add your validations here if needed
-  ],
+  [  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -60,7 +58,7 @@ router.post(
         interestedSubject: req.body.interestedSubject,
         skillSets: req.body.skillSets,
         yearsOfExperience: req.body.yearsOfExperience,
-        resume: req.file ? req.file.path : null, // Store the file path
+        resume: req.file ? req.file.path : null, 
       });
 
       const payload = {
@@ -71,7 +69,10 @@ router.post(
 
       jwt.sign(payload, JWT_SECRET, (err, token) => {
         if (err) throw err;
-        res.json({ token, user }); // Return the token and user data
+
+
+        //<---------------------------------------------------- Return the token and user data---------------------------------------------------------------->
+        res.json({ token, user }); 
       });
     } catch (err) {
       console.error(err.message);
@@ -80,7 +81,7 @@ router.post(
   }
 );
 
-// Route 2: Login auth
+//<---------------------------------------------------------------- Route 2: Login auth---------------------------------------------------------------->
 router.post(
   "/login",
   [
@@ -122,7 +123,7 @@ router.post(
 
       jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
         if (err) throw err;
-        res.json({ token, user }); // Return the token and user data
+        res.json({ token, user }); 
       });
     } catch (error) {
       console.error("Error during login:", error.message);
@@ -131,7 +132,7 @@ router.post(
   }
 );
 
-// Route 3: Get user details (login required)
+//<--------------------------------------------------- Route 3: Get user details (login required) ------------------------------------------------>
 router.post("/getuser", fetchUser, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -142,7 +143,7 @@ router.post("/getuser", fetchUser, async (req, res) => {
   }
 });
 
-// Route 4: Update user profile (login required)
+//<---------------------------------------------------------- Route 4: Update user profile (login required)----------------------------------------------------->
 router.put("/updateProfile", fetchUser, upload.single('resume'), async (req, res) => {
   try {
     const { name, email, phone, collegeName, degree, interestedSubject, skillSets, yearsOfExperience } = req.body;
@@ -155,7 +156,6 @@ router.put("/updateProfile", fetchUser, upload.single('resume'), async (req, res
       updatedUser.resume = req.file.path;
     }
 
-    // Update the user in the database
     const user = await User.findByIdAndUpdate(userId, updatedUser, { new: true }).select("-password");
     res.json(user);
   } catch (error) {
@@ -164,7 +164,7 @@ router.put("/updateProfile", fetchUser, upload.single('resume'), async (req, res
   }
 });
 
-// Google Auth Routes
+//<------------------------------------------------------------------- Google Auth Routes--------------------------------------------------------------->
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -183,7 +183,7 @@ router.get(
   }
 );
 
-// GitHub Auth Routes
+// <--------------------------------------------------GitHub Auth Routes-------------------------------------------------->
 router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] })
@@ -200,7 +200,7 @@ router.get(
   }
 );
 
-// LinkedIn Auth Routes
+//<-------------------------------------------------- LinkedIn Auth Routes------------------------------------------------>
 router.get(
   "/linkedin",
   passport.authenticate("linkedin", { state: "SOME STATE" })

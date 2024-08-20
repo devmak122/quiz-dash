@@ -75,7 +75,7 @@ const Dashboard = () => {
       <div className="flex laptop:flex-row mobile:flex-col tablet:flex-row h-full">
 
         {/* Sidebar for larger devices */}
-        <aside className="fixed mobile:hidden tablet:hidden top-0 left-0 h-screen w-1/4 tablet:w-1/5 bg-gradient-to-b from-[#1D3D81] to-[#27368D] text-white flex flex-col justify-between shadow-xl z-10">
+        <aside className="fixed mobile:hidden tablet:hidden top-0 left-0 h-screen w-1/6  bg-gradient-to-b from-[#1D3D81] to-[#27368D] text-white flex flex-col justify-between shadow-xl z-10">
           <div className="p-5">
             <h2 className="text-4xl font-bold text-red-500 mb-10 tracking-wide">Mamo Academy</h2>
             <ul className="space-y-6">
@@ -151,7 +151,7 @@ const Dashboard = () => {
         {/* Main content */}
         
 
-        <main className="mobile:flex-grow p-8 overflow-y-auto laptop:ml-auto laptop:w-3/4 tablet:w-4/5 laptop:p-8 laptop:overflow-y-auto laptop:h-screen ">
+        <main className="mobile:flex-grow p-8 overflow-y-auto laptop:ml-auto laptop:w-5/6 tablet:w-full laptop:p-8 laptop:overflow-y-auto laptop:h-screen ">
           <header className="flex items-center  mobile:justify-center justify-between mb-6">
             <h1 className="text-4xl font-extrabold text-gray-900   p-3 ">
               {activePage === 'home' && 'Home'}
