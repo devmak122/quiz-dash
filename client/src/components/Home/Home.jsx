@@ -69,15 +69,10 @@ const HomePage = () => {
   }, []);
 
 
-  const cardColors = {
-    1: 'bg-blue-100 border-blue-500 text-blue-700',
-    2: 'bg-purple-100 border-purple-500 text-purple-700',
-    3: 'bg-yellow-100 border-yellow-500 text-yellow-700',
-  };
-
+  
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Your Booked Slots</h2>
+      <h2 className="text-2xl mobile:text-center font-bold mb-4">Your Booked Slots</h2>
       {bookedSlots.length === 0 ? (
         <p>No slots booked yet.</p>
       ) : (

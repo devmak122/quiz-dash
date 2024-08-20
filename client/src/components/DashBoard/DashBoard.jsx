@@ -152,7 +152,7 @@ const Dashboard = () => {
         
 
         <main className="mobile:flex-grow p-8 overflow-y-auto laptop:ml-auto laptop:w-3/4 tablet:w-4/5 laptop:p-8 laptop:overflow-y-auto laptop:h-screen ">
-          <header className="flex items-center  justify-center mb-6">
+          <header className="flex items-center  mobile:justify-center justify-between mb-6">
             <h1 className="text-4xl font-extrabold text-gray-900   p-3 ">
               {activePage === 'home' && 'Home'}
               {activePage === 'book' && 'Book Exam Slot'}
