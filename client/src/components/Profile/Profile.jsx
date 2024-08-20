@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { FaUser, FaEnvelope, FaPhone, FaLock, FaUniversity, FaBook, FaBrain, FaLaptopCode } from 'react-icons/fa';
+// import { FaUser, FaEnvelope, FaPhone, FaLock, FaUniversity, FaBook, FaBrain, FaLaptopCode } from 'react-icons/fa';
 
 const ProfileUpdateForm = () => {
   const [initialValues, setInitialValues] = useState({

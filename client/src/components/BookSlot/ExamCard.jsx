@@ -82,9 +82,9 @@ const SlotCard = ({ slot, onBookSlot }) => {
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-60 bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg relative">
-            <div className="mb-4 flex justify-between items-center">
+            <div className="mb-4 p-4 flex justify-between items-center">
               <h3 className="text-lg font-bold sm:text-xl">Select Date & Time Slot</h3>
               <button className="text-gray-500 hover:text-gray-800 text-xl" onClick={toggleModal}>
                 ✖

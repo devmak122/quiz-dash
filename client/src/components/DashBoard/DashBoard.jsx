@@ -77,7 +77,7 @@ const Dashboard = () => {
         {/* Sidebar for larger devices */}
         <aside className="fixed mobile:hidden tablet:hidden top-0 left-0 h-screen w-1/4 tablet:w-1/5 bg-gradient-to-b from-[#1D3D81] to-[#27368D] text-white flex flex-col justify-between shadow-xl z-10">
           <div className="p-5">
-            <h2 className="text-4xl font-bold text-red-500 mb-10 tracking-wide">Skolar</h2>
+            <h2 className="text-4xl font-bold text-red-500 mb-10 tracking-wide">Mamo Academy</h2>
             <ul className="space-y-6">
               <li
                 className={`flex items-center p-4 rounded-lg cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-red-600 hover:text-white ${activePage === 'home' ? 'bg-red-600 text-white' : ''}`}
@@ -129,8 +129,8 @@ const Dashboard = () => {
                       className={`px-4 py-3 hover:bg-red-600 hover:text-white cursor-pointer ${activePage === 'Profile' ? 'bg-red-600 text-white' : ''}`}
                       onClick={() => handlePageChange('Profile')}
                     >
-                      <FiUser className="mr-3 text-2xl" />
-                      <span className="text-lg">Profile</span>
+                      <div className='flex '><FiUser className="mr-3 text-2xl" />
+                      <span className="text-lg">Profile</span></div>
                     </li>
                     <li className="px-4 py-3 hover:bg-red-600 hover:text-white cursor-pointer">
                       <button
@@ -152,9 +152,9 @@ const Dashboard = () => {
         
 
         <main className="mobile:flex-grow p-8 overflow-y-auto laptop:ml-auto laptop:w-3/4 tablet:w-4/5 laptop:p-8 laptop:overflow-y-auto laptop:h-screen ">
-          <header className="flex items-center justify-between mb-6">
-            <h1 className="text-4xl font-extrabold text-gray-900  p-3 ">
-              {activePage === 'home' && 'Dashboard'}
+          <header className="flex items-center  justify-center mb-6">
+            <h1 className="text-4xl font-extrabold text-gray-900   p-3 ">
+              {activePage === 'home' && 'Home'}
               {activePage === 'book' && 'Book Exam Slot'}
               {activePage === 'Profile' && 'Profile'}
             </h1>

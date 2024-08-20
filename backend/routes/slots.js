@@ -1,6 +1,4 @@
-
-
-//routes/slots.js
+// routes/slots.js
 
 const express = require('express');
 const Slot = require('../models/slot');
@@ -46,13 +44,28 @@ router.delete('/:id', fetchuser, async (req, res) => {
   }
 });
 
-// GET /api/slots/bookedslot - Retrieve all slots for the authenticated user// routes/slots.js (or wherever your routes are defined)
-router.get('/booked-slots', fetchuser, async (req, res) => {
-  try {
-    console.log('User Email:', req.user.email); // Log user email for debugging
+// // GET /api/slots/booked-slots - Retrieve all slots for the authenticated user
+// router.get('/booked-slots', fetchuser, async (req, res) => {
+//   try {
+//     console.log('User Email:', req.user.email);
+//      // Log user email for debugging
 
-    const bookedSlots = await Slot.find({ 'user.email': req.user.email });
-    console.log('Fetched Slots:', bookedSlots); // Log fetched slots
+//     const bookedSlots = await Slot.find({ 'user.email': req.user.email });
+//     // console.log('Fetched Slots:', bookedSlots); // Log fetched slots
+
+//     res.json(bookedSlots);
+//   } catch (error) {
+//     console.error('Error fetching booked slots:', error);
+//     res.status(500).json({ message: 'Error fetching booked slots' + error.message });
+//   }
+// });
+// GET /api/slots/booked-slots/:email - Retrieve all slots for the specified email
+router.get('/booked-slots/:email', fetchuser, async (req, res) => {
+  try {
+    console.log('User Email:', req.params.email); // Log user email for debugging
+
+    const bookedSlots = await Slot.find({ 'user.email': req.params.email });
+    // console.log('Fetched Slots:', bookedSlots); // Log fetched slots
 
     res.json(bookedSlots);
   } catch (error) {
@@ -60,7 +73,5 @@ router.get('/booked-slots', fetchuser, async (req, res) => {
     res.status(500).json({ message: 'Error fetching booked slots' });
   }
 });
-
-
 
 module.exports = router;

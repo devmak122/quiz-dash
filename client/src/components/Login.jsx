@@ -5,11 +5,12 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEnvelope, FaLock, FaGoogle, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { FaEnvelope, FaLock, } from 'react-icons/fa';
 import loginform from '../assets/Images/loginform.svg';
 import Google from '../assets/Images/google.svg';
 import Github from '../assets/Images/github.svg';
 import Linkedin from '../assets/Images/linkedin.svg';
+// FaGoogle, FaLinkedin, FaGithub 
 
 const Login = () => {
   const navigate = useNavigate();
