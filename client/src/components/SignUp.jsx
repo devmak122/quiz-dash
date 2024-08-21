@@ -96,35 +96,39 @@ const Registration = () => {
   ];
 
   return (
-    <div className="flex h-screen overflow-hidden ">
-      <div className="hidden lg:flex w-3/4 bg-cover bg-center relative">
-        <img src={loginform} alt="Illustration" className="object-cover w-full h-full" />
-      </div>
-      <div className="flex flex-col justify-center w-full lg:w-1/2 p-8 lg:p-24 bg-white shadow-lg">
-        <h1 className="font-bold text-4xl mb-6 text-start">Sign up</h1>
-        <p className="text-start text-xl font-medium text-gray-500 mb-8">
-          If you already have an account,<br />
-          <Link to="/login" className="text-red-500 font-bold hover:underline text-2xl">Login here!</Link>
-        </p>
-
-        <div className="flex justify-center w-full pt-10 items-center space-x-2 p-4">
-          {[1, 2, 3].map((step) => (
-            <React.Fragment key={step}>
-              <div className={`${currentStep >= step ? 'ring-2 ring-red-500 rounded-full p-1' : ''}`}>
-                <div className={`w-12 h-12 flex items-center justify-center text-2xl font-bold ${currentStep >= step ? 'text-white bg-red-500' : 'text-red-500 bg-gray-300'} rounded-full`}>
-                  {currentStep > step ? <CheckMarkIcon /> : step}
-                </div>
+    <div className="flex flex-row mobile:flex-row laptop:h-screen overflow-hidden">
+    {/* Left: Illustration */}
+    <div className="hidden mobile:hidden tablet:hidden laptop:flex w-full laptop:w-3/4 bg-cover bg-center relative">
+      <img src={loginform} alt="Illustration" className="object-cover w-full h-full" />
+    </div>
+  
+    {/* Right: Sign Up Form */}
+    <div className="flex flex-col justify-center w-full laptop:w-4/12 p-10 mt-24 mobile:p-6 tablet:p-8 bg-white shadow-laptop h-full mobile:h-[90%] laptop:h-[80%]">
+      <h1 className="font-bold text-2xl mobile:text-3xl laptop:text-4xl mb-4 text-start">Sign up</h1>
+      <p className="text-start text-sm mobile:text-base laptop:text-xl font-medium text-gray-500">
+        If you already have an account,<br />
+        <Link to="/login" className="text-red-500 font-bold hover:underline text-lg mobile:text-xl laptop:text-2xl">Login here!</Link>
+      </p>
+  
+      <div className="flex justify-center w-full pt-6 mobile:pt-8 laptop:pt-10 items-center space-x-2 p-2 mobile:p-4">
+        {[1, 2, 3].map((step) => (
+          <React.Fragment key={step}>
+            <div className={`${currentStep >= step ? 'ring-2 ring-red-500 rounded-full p-1' : ''}`}>
+              <div className={`w-8 h-8 mobile:w-10 mobile:h-10 laptop:w-12 laptop:h-12 flex items-center justify-center text-lg mobile:text-xl laptop:text-2xl font-bold ${currentStep >= step ? 'text-white bg-red-500' : 'text-red-500 bg-gray-300'} rounded-full`}>
+                {currentStep > step ? <CheckMarkIcon /> : step}
               </div>
-              {step < 3 && <hr className="border-t-2 w-32" />}
-            </React.Fragment>
-          ))}
-        </div>
-
-        <div className="mt-6">
-          {stepComponents[currentStep - 1]}
-        </div>
+            </div>
+            {step < 3 && <hr className="border-t-2 w-16 mobile:w-24 laptop:w-32" />}
+          </React.Fragment>
+        ))}
+      </div>
+  
+      <div className="mt-4 mobile:mt-6">
+        {stepComponents[currentStep - 1]}
       </div>
     </div>
+  </div>
+  
   );
 };
 

@@ -54,12 +54,12 @@ const Login = () => {
   return (
     <div className="flex h-screen font-roboto">
       {/* Left: Image Section */}
-      <div className="hidden lg:flex w-3/4 bg-cover bg-center relative">
+      <div className="hidden laptop:flex w-3/4 bg-cover bg-center relative">
         <img src={loginform} alt="Illustration" className="object-cover w-full h-full" />
       </div>
 
       {/* Right: Login Form */}
-      <div className="flex flex-col justify-center w-full lg:w-1/2 p-8 lg:p-24 bg-white shadow-lg">
+      <div className="flex flex-col justify-center w-full laptop:w-4/12 p-8  laptop:px-14 bg-white shadow-lg">
         <h1 className="text-4xl font-bold mb-4">Sign in</h1>
         <p className="text-gray-600 mb-8">
           If you don't have an account register<br />
