@@ -28,13 +28,32 @@ const SlotBooking = () => {
     },
     {
       id: 3,
-      title: "Data Structures Bootcamp",
+      title: "DSA",
       description: "Learn essential algorithms",
       specialty: "Computer Science",
       available: true,
       times: ["4:00 PM", "5:00 PM", "6:00 PM"],
       icon: "💻",
     },
+    {
+      id: 4,
+      title: "Java Spring Boot",
+      description: "Design Web page iwth java framework",
+      specialty: "Computer Science",
+      available: true,
+      times: ["4:00 PM", "5:00 PM", "6:00 PM"],
+      icon: "💻",
+    },
+    {
+      id: 5,
+      title: "Digital Marketing",
+      description: "Become SEO Expert ",
+      specialty: "Marketing",
+      available: true,
+      times: ["4:00 PM", "5:00 PM", "6:00 PM"],
+      icon: "💻",
+    },
+    
   ];
 
   const handleBookSlot = async (slotId, time, date) => {

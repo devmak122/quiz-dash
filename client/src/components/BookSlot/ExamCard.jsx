@@ -6,7 +6,10 @@ const SlotCard = ({ slot, onBookSlot }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const buttonClass = `bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full hover:bg-blue-800 text-sm sm:text-base ${slot.available ? '' : 'bg-blue-200 hover:bg-blue-300 text-gray-700'}`;
+  const dateClass = `bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 text-sm sm:text-base ${slot.available ? '' : 'bg-blue-200 hover:bg-blue-300 text-gray-700'}`;
 
+ 
   const generateTimeSlots = (date) => {
     return [
       '11:00 AM - 1:00 PM',
@@ -41,6 +44,8 @@ const SlotCard = ({ slot, onBookSlot }) => {
     1: 'bg-blue-100 border-blue-500 text-blue-700',
     2: 'bg-purple-100 border-purple-500 text-purple-700',
     3: 'bg-yellow-100 border-yellow-500 text-yellow-700',
+    4: 'bg-orange-100 border-green-500 text-yellow-700',
+    5: 'bg-teal-100 border-green-500 text-yellow-700',
   };
 
   return (
@@ -58,12 +63,10 @@ const SlotCard = ({ slot, onBookSlot }) => {
       <p className="text-sm sm:text-base mb-6">{slot.description}</p>
 
       <div className="mb-6">
-        <button
-          onClick={toggleModal}
-          className="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 text-sm sm:text-base"
-        >
-          Select Date & Time
-        </button>
+        
+        <button className={dateClass}  onClick={toggleModal} disabled={!slot.available}>
+      {slot.available ? ' Select Date & Time' : ' Select Date & Time'}
+    </button>
       </div>
 
       {selectedDate && selectedTimeSlot && (
@@ -73,13 +76,9 @@ const SlotCard = ({ slot, onBookSlot }) => {
         </div>
       )}
 
-      <button
-        className="bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full hover:bg-blue-800 text-sm sm:text-base"
-        onClick={handleBook}
-        disabled={!slot.available}
-      >
-        Book Slot
-      </button>
+      <button className={buttonClass} onClick={handleBook} disabled={!slot.available}>
+      {slot.available ? 'Book Slot' : 'Slot Not Available'}
+    </button>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">

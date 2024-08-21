@@ -65,39 +65,45 @@ const HomePage = () => {
     fetchBookedSlots();
   }, []);
 
- 
- // Function to remove a slot
- const removeSlot = async (slotId, index) => {
-  try {
-    const token = localStorage.getItem("token");
+  // Function to remove a slot
+  const removeSlot = async (slotId, index) => {
+    try {
+      const token = localStorage.getItem("token");
 
-    if (!token) {
-      toast.error("Token not found. Cannot remove slot.");
-      console.error('Token not found in local storage'); // Log the error
-      return;
-    }
-
-    console.log('Slot ID:', slotId); // Log the slot ID
-
-    await axios.delete(
-      `http://localhost:5000/api/slots/remove/${slotId}`,
-      {
-        headers: {
-          "auth-token": token,
-        },
+      if (!token) {
+        toast.error("Token not found. Cannot remove slot.");
+        console.error('Token not found in local storage'); // Log the error
+        return;
       }
-    );
 
-    // Remove the slot from the state after successful deletion from backend
-    const updatedSlots = bookedSlots.filter((_, i) => i !== index);
-    setBookedSlots(updatedSlots);
+      console.log('Slot ID:', slotId); // Log the slot ID
 
-    toast.success("Slot removed successfully");
-  } catch (error) {
-    console.error('Error removing slot:', error); // Log the error
-    toast.error("Failed to remove slot");
-  }
-};
+      // Make a delete request to the backend
+      const response = await axios.delete(
+        `http://localhost:5000/api/slots/remove/${slotId}`,
+        {
+          headers: {
+            "auth-token": token,
+          },
+        }
+      );
+
+      // Check if the deletion was successful
+      if (response.status === 200) {
+        // Remove the slot from the state after successful deletion from backend
+        const updatedSlots = bookedSlots.filter((_, i) => i !== index);
+        setBookedSlots(updatedSlots);
+
+        toast.success("Slot removed successfully");
+      } else {
+        toast.error("Failed to remove slot. Please try again.");
+      }
+    } catch (error) {
+      console.error('Error removing slot:', error); // Log the error
+      toast.error("Failed to remove slot");
+    }
+  };
+
   return (
     <div className="min-h-screen p-8 bg-gradient-to-r from-blue-50 to-blue-100">
       <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
@@ -128,21 +134,15 @@ const HomePage = () => {
               </button>
 
               <div className="flex justify-between items-center mb-4">
-                <div className="text-5xl text-blue-500">{slot.icon}</div>
-                <div className="text-right">
-                  <p className="text-xl font-semibold text-gray-700">
+    
+                <div className="text-left">
+                  <p className="text-xl font-semibold text-left flex items-start justify-start text-gray-700">
                     {slot.specialty}
                   </p>
-                  <p
-                    className={`text-md mt-2 ${
-                      slot.available ? "text-green-500" : "text-red-500"
-                    }`}
-                  >
-                    {slot.available ? "AVAILABLE" : "FULL"}
-                  </p>
+                 
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              <h3 className="text-3xl font-bold text-gray-800 mb-4">
                 {slot.name}
               </h3>
               <p className="text-base mb-2">
@@ -171,16 +171,7 @@ const HomePage = () => {
                   ></div>
                 </div>
               </div>
-              <button
-                className={`w-full py-2 text-white rounded-full font-semibold transition-all duration-300 ${
-                  slot.available
-                    ? "bg-blue-500 hover:bg-blue-600"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={!slot.available}
-              >
-                {slot.available ? "Book Slot" : "Not Available"}
-              </button>
+             
             </div>
           ))}
         </div>
@@ -195,3 +186,8 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+
+
+
+

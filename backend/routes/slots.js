@@ -1,3 +1,6 @@
+
+
+
 // routes/slots.js
 
 const express = require('express');
@@ -48,7 +51,7 @@ router.get('/booked-slots/:email', fetchuser, async (req, res) => {
 
 
 
-router.post('/remove/:id', fetchuser, async (req, res) => {
+router.delete('/remove/:id', fetchuser, async (req, res) => {
   try {
     const slotId = req.params.id;
     console.log('Slot ID:', slotId); // For debugging
@@ -66,6 +69,7 @@ router.post('/remove/:id', fetchuser, async (req, res) => {
     res.status(500).json({ message: 'Failed to remove slot' });
   }
 });
+
 // DELETE /api/slots/remove-slot/:slotId
 // router.delete('/remove-slot/:slotId', fetchuser, async (req, res) => {
 //   try {
