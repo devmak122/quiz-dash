@@ -1,5 +1,20 @@
 {
   "dependencies": {
+    "build": "^0.1.4",
     "react-calendar": "^5.0.0"
-  }
+  },
+  "name": "quiz-dash",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prestart-server": "cd backend && npm install",
+    "start-server": "cd backend && npx nodemon index.js",
+    "install-client": "cd frontend && npm install",
+    "build-client": "cd frontend && npm run build",
+    "start-client": "cd frontend && npm run start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
