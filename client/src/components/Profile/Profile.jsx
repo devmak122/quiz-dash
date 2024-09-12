@@ -60,7 +60,7 @@ const ProfileUpdateForm = () => {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/updateProfile', {
+      const response = await fetch('https://quiz-dashbackend.onrender.com/api/auth/updateProfile', {
         method: 'PUT',
         body: formData,
         headers: {

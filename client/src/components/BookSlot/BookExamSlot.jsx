@@ -91,7 +91,7 @@ const SlotBooking = () => {
 
       // Send the booking data to the backend
       const response = await axios.post(
-        "http://localhost:5000/api/slots/book",
+        "https://quiz-dashbackend.onrender.com/api/slots/book",
         bookingData,
         {
           headers: {

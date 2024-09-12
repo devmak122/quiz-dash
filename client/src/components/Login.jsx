@@ -26,7 +26,7 @@ const Login = () => {
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', values);
+        const res = await axios.post('https://quiz-dashbackend.onrender.com/api/auth/login', values);
         const { token, user } = res.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
@@ -48,7 +48,7 @@ const Login = () => {
   });
 
   const handleSocialLogin = (provider) => {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    window.location.href = `https://quiz-dashbackend.onrender.com/api/auth/${provider}`;
   };
 
   return (

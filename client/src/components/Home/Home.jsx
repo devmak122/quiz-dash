@@ -26,7 +26,7 @@ const HomePage = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:5000/api/slots/booked-slots/${user.email}`,
+          `https://quiz-dashbackend.onrender.com/api/slots/booked-slots/${user.email}`,
           {
             headers: {
               "auth-token": token,
@@ -80,7 +80,7 @@ const HomePage = () => {
 
       // Make a delete request to the backend
       const response = await axios.delete(
-        `http://localhost:5000/api/slots/remove/${slotId}`,
+        `https://quiz-dashbackend.onrender.com/api/slots/remove/${slotId}`,
         {
           headers: {
             "auth-token": token,
